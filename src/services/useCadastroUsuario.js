@@ -10,14 +10,14 @@ export const useCadastroUsuario = () => {
     mutationFn: async (data) => {
       const response = await api.post("/usuario", data);
       console.log(data);
-      if (response.status !== 200) {
+      if (response.status !== 201) {
         throw new Error("Falha no registro");
       }
       return response.data;
     },
     onSuccess: () => {
       toast.success("Registro realizado com sucesso");
-      navigate("/app");
+      navigate("/dashboard");
     },
     onError: () => {
       toast.error("Erro no registro. Verifique os dados e tente novamente.");

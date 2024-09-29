@@ -3,36 +3,39 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { cadastroUsuarioSchema } from "../../util/validationSchemas";
-// import { handleCepChange } from "../../util/buscaCep";
+import { handleCepChange } from "../../util/buscaCep";
 import { useCadastroUsuario } from "../../services/useCadastroUsuario";
 
 function CadastroUsuario() {
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState, watch, setValue } = useForm({
     resolver: yupResolver(cadastroUsuarioSchema),
   });
   const cadastroUsuario = useCadastroUsuario();
   const navigate = useNavigate();
 
-  // const cep = watch("cep");
+  const cep = watch("cep");
 
-  // const onCepChange = async (e) => {
-  //   const cepValue = e.target.value.replace(/\D/g, "");
-  //   await handleCepChange(cepValue, setValue);
-  // };
+  const onCepChange = async (e) => {
+    const cepValue = e.target.value.replace(/\D/g, "");
+    await handleCepChange(cepValue, setValue);
+  };
 
-  // const debounce = (func, delay) => {
-  //   let timer;
-  //   return function (...args) {
-  //     clearTimeout(timer);
-  //     timer = setTimeout(() => {
-  //       func.apply(this, args);
-  //     }, delay);
-  //   };
-  // };
+  const debounce = (func, delay) => {
+    let timer;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    };
+  };
 
-  // const debouncedCepChange = debounce(onCepChange, 500);
+  const debouncedCepChange = debounce(onCepChange, 500);
 
   const onSubmit = async (data) => {
+    data.data_nascimento = new Date(data.data_nascimento)
+      .toISOString()
+      .slice(0, 10);
     try {
       await cadastroUsuario.mutateAsync(data);
       console.log(`data a enviar`, data);
@@ -112,7 +115,7 @@ function CadastroUsuario() {
                 </span>
                 <input
                   className="input-area w-100"
-                  type="text"
+                  type="email"
                   placeholder="E-mail"
                   {...register("email")}
                 />
@@ -139,8 +142,7 @@ function CadastroUsuario() {
                   type="text"
                   placeholder="CEP"
                   {...register("cep")}
-                  // value={cep || ""} // Usamos el valor directamente desde watch
-                  // onChange={debouncedCepChange} // Usamos la función con debounce
+                  onChange={debouncedCepChange} // Usamos la función con debounce
                 />
               </div>
               <div className="col-7">
@@ -169,35 +171,13 @@ function CadastroUsuario() {
             <div className="row mt-4">
               <div className="col-4">
                 <span className="error-message">
-                  {formState.errors?.bairro?.message}
-                </span>
-                <input
-                  className="input-area w-100"
-                  type="text"
-                  placeholder="Bairro"
-                  {...register("bairro")}
-                />
-              </div>
-              <div className="col-4">
-                <span className="error-message">
-                  {formState.errors?.cidade?.message}
-                </span>
-                <input
-                  className="input-area w-100"
-                  type="text"
-                  placeholder="Cidade"
-                  {...register("cidade")}
-                />
-              </div>
-              <div className="col-4">
-                <span className="error-message">
                   {formState.errors?.estado?.message}
                 </span>
                 <input
                   className="input-area w-100"
                   type="text"
-                  placeholder="Estado"
-                  {...register("estado")}
+                  placeholder="Complemento"
+                  {...register("complemento")}
                 />
               </div>
             </div>
