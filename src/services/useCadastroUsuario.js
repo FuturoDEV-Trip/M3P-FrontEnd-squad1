@@ -9,6 +9,10 @@ export const useCadastroUsuario = () => {
   return useMutation({
     mutationFn: async (data) => {
       const response = await api.post("/usuario", data);
+      console.log(data);
+      if (response.status !== 200) {
+        throw new Error("Falha no registro");
+      }
       return response.data;
     },
     onSuccess: () => {

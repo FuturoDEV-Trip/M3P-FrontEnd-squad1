@@ -5,7 +5,7 @@ const cadastroUsuarioSchema = yup.object().shape({
 
   sexo: yup
     .string()
-    .oneOf(["Masculino", "Feminino"], "Selecione uma opção válida")
+
     .required("O sexo é obrigatório"),
 
   cpf: yup

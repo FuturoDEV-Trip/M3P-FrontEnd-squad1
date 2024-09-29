@@ -1,60 +1,49 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
-import buscaCep from "../../util/buscaCep";
+
 import { useNavigate } from "react-router-dom";
-import checkCpfUnico from "../../util/cpfUnico";
-import checkEmailUnico from "../../util/emailUnico";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { cadastroUsuarioSchema } from "../../util/validationSchemas";
+// import { handleCepChange } from "../../util/buscaCep";
+import { useCadastroUsuario } from "../../services/useCadastroUsuario";
 
 function CadastroUsuario() {
-  const { register, handleSubmit, setValue, formState } = useForm({
+  const { register, handleSubmit, formState } = useForm({
     resolver: yupResolver(cadastroUsuarioSchema),
   });
-  const [cep, setCep] = useState("");
+  const cadastroUsuario = useCadastroUsuario();
   const navigate = useNavigate();
 
-  const onCepChange = (e) => {
-    const cepValue = e.target.value.replace(/\D/g, "");
-    setCep(cepValue);
-    if (cepValue.length === 8) {
-      buscaCep(cepValue, setValue);
+  // const cep = watch("cep");
+
+  // const onCepChange = async (e) => {
+  //   const cepValue = e.target.value.replace(/\D/g, "");
+  //   await handleCepChange(cepValue, setValue);
+  // };
+
+  // const debounce = (func, delay) => {
+  //   let timer;
+  //   return function (...args) {
+  //     clearTimeout(timer);
+  //     timer = setTimeout(() => {
+  //       func.apply(this, args);
+  //     }, delay);
+  //   };
+  // };
+
+  // const debouncedCepChange = debounce(onCepChange, 500);
+
+  const onSubmit = async (data) => {
+    try {
+      await cadastroUsuario.mutateAsync(data);
+      console.log(`data a enviar`, data);
+    } catch (error) {
+      console.error("Error en el registro:", error);
     }
   };
 
   const handleLogin = () => {
     navigate("/");
   };
-
-  async function addUser(data) {
-    try {
-      const cpfUnico = await checkCpfUnico(data.cpf);
-      if (!cpfUnico) {
-        alert("CPF já cadastrado");
-        return;
-      }
-
-      const emailUnico = await checkEmailUnico(data.email);
-      if (!emailUnico) {
-        alert("E-mail já cadastrado");
-        return;
-      }
-
-      const response = await fetch("http://localhost:3000/usuarios", {
-        method: "post",
-        body: JSON.stringify(data),
-      });
-
-      if (response.ok === false) {
-        alert("Erro ao cadastrar usuario.");
-      } else {
-        alert("Cadastro efetuado com sucesso!");
-        navigate("/");
-      }
-    } catch (error) {
-      alert("Erro no cadastro do usuario.");
-    }
-  }
 
   return (
     <div className="flex-row">
@@ -67,7 +56,7 @@ function CadastroUsuario() {
       <div className="container-bg ml-500">
         <h2 className="titulo">Cadastre-se</h2>
         <div>
-          <form onSubmit={handleSubmit(addUser)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="row mt-4">
               <div className="col-12">
                 <span className="error-message">
@@ -81,7 +70,6 @@ function CadastroUsuario() {
                 />
               </div>
             </div>
-
             <div className="row mt-4">
               <div className="col-4">
                 <span className="error-message">
@@ -113,11 +101,10 @@ function CadastroUsuario() {
                   className="input-area w-100"
                   type="date"
                   placeholder="Data de Nascimento"
-                  {...register("data_nasc")}
+                  {...register("data_nascimento")}
                 />
               </div>
             </div>
-
             <div className="row mt-4">
               <div className="col-8">
                 <span className="error-message">
@@ -136,13 +123,12 @@ function CadastroUsuario() {
                 </span>
                 <input
                   className="input-area w-100"
-                  type="text"
+                  type="password" // Corregimos el tipo a "password"
                   placeholder="Senha"
-                  {...register("senha")}
+                  {...register("password")}
                 />
               </div>
             </div>
-
             <div className="row mt-4">
               <div className="col-3">
                 <span className="error-message">
@@ -153,8 +139,8 @@ function CadastroUsuario() {
                   type="text"
                   placeholder="CEP"
                   {...register("cep")}
-                  value={cep}
-                  onChange={onCepChange}
+                  // value={cep || ""} // Usamos el valor directamente desde watch
+                  // onChange={debouncedCepChange} // Usamos la función con debounce
                 />
               </div>
               <div className="col-7">
@@ -180,7 +166,6 @@ function CadastroUsuario() {
                 />
               </div>
             </div>
-
             <div className="row mt-4">
               <div className="col-4">
                 <span className="error-message">
