@@ -113,7 +113,7 @@ Iniciei na main mesmo e organizei as pastas, deletei arquivos e iniciei limpo.
 developFront: 
 
 *feature/contextLogin - create useContext(context>AuthContext.jsx), protectedRoute e adicionou ao Routes.jsx
-*feature/pageLogin
+*feature/pageLogin - useLogin
 *feature/pageCadastroUsuario
 
 
