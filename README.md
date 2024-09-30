@@ -78,36 +78,10 @@ Seguindo um roteiro e aplicando as regras de negócio e rotas/telas que devem se
 
 Primeiros passos:
 
-    1. `git clone https://github.com/pricbnll/viagem365Frontend.git`
+    1. `git clone https://github.com/FuturoDEV-Trip/M3P-FrontEnd-squad1`
     2. `cd viagem365Frontend`
     3. `npm install`
     4. `npm run dev`
-    5. `npm run server`
-
-
-Mais detalhado:
-
-Clone o repositório em sua máquina em uma pasta local 
-
-`Git clone https://github.com/pricbnll/viagem365Frontend.git`
-
-Criei uma pasta com Vite ```npm create vite@latest```. Coloquei um nome de pasta (viagem365) que foi criado. Escolhi: React e JavaScript
-Após isso transferi todos os arquivos para a pasta viagem365Frontend e deletei esta que ficou vazia, assim so tenho uma pasta com tudo - dependência Vite e git.
-
-Agora você, após clonar, rode os seguintes comandos para instalar as dependências que estão nas pastas 'package.json'.
-````
-cd viagem365
-npm install
-npm run
-````
-PS. Tive que instalar algumas bibliotecas recomentadas 
-````
-npm install lru-cache@latest
-npm install @eslint/config-array@latest
-npm install rimraf@latest
-npm install glob@latest
-npm install @eslint/object-schema@latest
-````
 
 Assim aparecerá a url que renderizará seu projeto no browser:
 
@@ -132,64 +106,13 @@ http://localhost:3000/users
 http://localhost:3000/localidade 
 ```
 
-                      
-##  ✅  Dependências instaladas: 
-
-Instalado React Bootstrap 
-`````
-npm install react-bootstrap bootstrap
-`````
-
-Instalei Reach Router Dom
-```
-npm install react-router-dom
-```
-
-Instalei Reach Hook Form
-```
-npm install react-hook-form
-```
-
-Instalei Json Server para popular
-```
-npm i json-server --save-dev
-```
-
-Algumas páginas usei validações com YUP
-
-Instalar Yup `npm install @hookform/resolvers yup`
-```
-import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
-```
-
-Instalei a biblioteca 'prop-types' para incluir validações
-````
-npm install prop-types
-````
-Adicionei `import PropTypes from 'prop-types';`
-
-Instalei AXIOS
-```
-npm install axios
-```
-Adicionei `import axios from 'axios'`
-
-Instalei React Leaflet
-```
-npm install react react-dom leaflet
-npm install react-leaflet
-```
-Adicionei `import { MapContainer, TileLayer } from 'react-leaflet'`
-
-
 ## 🌊 GitFlow:
 
 Iniciei na main mesmo e organizei as pastas, deletei arquivos e iniciei limpo.
 
 developFront: 
 
-*feature/contextLogin
+*feature/contextLogin - create useContext(context>AuthContext.jsx), protectedRoute e adicionou ao Routes.jsx
 *feature/pageLogin
 *feature/pageCadastroUsuario
 
