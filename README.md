@@ -55,6 +55,13 @@ O projeto tem como objetivo planejar, registrar e explorar destinos turísticos,
 
 
 
+
+
+
+
+
+---------------------
+
 # 🚀 🚀 Não faça sua viagem sem antes utilizar a Birdy
 
   A Birdy é uma plataforma que visa promover viagens sustentáveis e experiências positivas para os usuários, fornecendo acesso a informações sobre destinos turísticos, praias, atrações naturais e atividades recreativas. Os usuários podem explorar e descobrir novos destinos, encontrar dicas de viagem sustentável e compartilhar suas experiências. O seu perfil chamou a atenção dos gestores da plataforma, para criar o MVP (Minimum Viable Product) da aplicação Front-End do software, que deverá ser construída utilizando a biblioteca React.
@@ -115,6 +122,7 @@ developFront:
 *feature/contextLogin - create useContext(context>AuthContext.jsx), protectedRoute e adicionou ao Routes.jsx
 *feature/pageLogin - useLogin
 *feature/pageCadastroUsuario
+*feature/home - feita a dashboard publica-Home 
 
 
 
@@ -149,42 +157,30 @@ Caso tenha alguma dúvida!!
 - Trello - todos os passos que fiz para criar, roteiro da aplicação, regras de negócios e validações exigidas
 
 <p>
-    <img src="./src/assets/Trello.png" />
+    <img src="" />
 </p>
 
 - VsCode - para formar o código em Node.js
 - GitHub - utilizando o GitFlow, criado a main, develop e algumas branches para desenvolver cada passo exigido (rotas, Hooks do React, API externa para obter coordenadas geográficas a partir do CEP informado...)
 - Vite
 - React
-- Json-server - para simular uma API fake com cadastro de usuários
-- YUP - para validações
-
-  
+- Json-server - para simular uma API fake com cadastro de usuários  
 
 ## 🧑🏻‍🏫 Professor para auxilio
 
 **Bruno Costa** - [GitHub](https://github.com/Bruno-Costa-fig)
 
-
 ## 👀 Melhorias
 
 - Implementar responsividade para adaptação em telas grandes (como monitores) e telas pequenas (como smartphones e tablets).
-- Na tela de cadastro, ao colocar o CEP cuidar para não colocar traço pois não funcionará. 
-- Fazer um pagina para atualizar dados do usuário
-- Fazer um Modal estilizado para perguntar se quer realmente deletar o destino
-- Estudar mais CSS kkk
+- 
 
 ## 🎁 Expressões de gratidão
 
 * O Floripa Mais Tec é uma iniciativa da Prefeitura de Florianópolis, em parceria com SENAI/SC, SEBRAE e ACATE, que visa democratizar o acesso ao ensino tecnológico para todos, oferecendo cursos de Tecnologia gratuitos!  📢;
 * Lab365 e todos os monitores;
-* Aos melhores colegas de classe de TRIP e NATURE que alguém poderia ter! Este módulo foi mais na raça com ajuda do ChatGPT
+* Aos melhores colegas de 
 * Qualquer dúvida ou sugestão de melhorar o código eu aceito - algumas escrevi acima!!!
 
 
-## 	📹 Video de apresentação do MiniProjeto 1
-
-No video fiz uma apresentação rápida do projeto com alguns demostrações da plataforma com o objetivo maior de ter uma comunicação mais assertiva, sem  um roteiro pre determinado. 
-
-[Video] - (https://drive.google.com/file/d/1OgXSE1_mt7pw0oXkQGk_N3sNsXzg_H_J/view?usp=drive_link)
 
