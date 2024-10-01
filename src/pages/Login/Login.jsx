@@ -1,15 +1,31 @@
 import "../Login/Login.css";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useAuth } from "../../context/AuthContext";
 import { useForm } from "react-hook-form";
-
-import { Link } from "react-router-dom";
-import { useLogin } from "../../services/useLogin";
+import axios from "axios";
 
 function Login() {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const { register, handleSubmit } = useForm();
-  const loginMutation = useLogin();
 
-  const onSubmit = (data) => {
-    loginMutation.mutate(data);
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("http://localhost:3000/login", {
+        email: data.email,
+        password: data.password,
+      });
+
+      const token = response.data.Token;
+
+      login({ email: data.email }, token);
+
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Erro de autenticação: ", error);
+      toast.error("Erro de autenticação: E-mail ou senha incorretos");
+    }
   };
 
   return (
@@ -17,12 +33,10 @@ function Login() {
       <div className="flex-row login-bg">
         <div className="form-container-login column">
           <div className="img-login">
-            <Link to="/">
-              <img
-                src="../src/imgs/frase-login.png"
-                alt="Birdy colecione suas histórias"
-              />
-            </Link>
+            <img
+              src="../src/imgs/frase-login.png"
+              alt="Birdy colecione suas histórias"
+            />
           </div>
 
           <h2>Login</h2>
@@ -32,15 +46,15 @@ function Login() {
           >
             <input
               className="input-area"
-              type="email"
+              type="text"
               placeholder="E-mail"
-              {...register("email")}
+              {...register("email", { required: "Campo Obrigatório" })}
             />
             <input
               className="input-area"
               type="password"
               placeholder="Senha"
-              {...register("password")}
+              {...register("password", { required: "Campo Obrigatório" })}
             />{" "}
             <br />
             <button type="submit" className="btn-style btn-yellow">
