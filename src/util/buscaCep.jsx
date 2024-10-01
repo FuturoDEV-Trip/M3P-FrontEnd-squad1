@@ -1,29 +1,20 @@
-import axios from "axios";
+import axios from "axios"
 
-const buscaCep = async (cep) => {
-  try {
-    const res = await axios.get(`https://cep.awesomeapi.com.br/json/${cep}`);
-    console.log(res.data);
-    return res;
-  } catch (error) {
-    console.log("Erro ao buscar CEP:", error);
-  }
-};
+async function buscaCep(cep, setValue) {
 
-const handleCepChange = async (cepValue, setValue) => {
-  if (cepValue.length === 8) {
     try {
-      const res = await buscaCep(cepValue);
-      if (res) {
-        setValue("endereco", res.data.address_name || "");
-        setValue("bairro", res.data.district || "");
-        setValue("cidade", res.data.city || "");
-        setValue("estado", res.data.state || "");
-      }
+        const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
+        if (!response.data.erro) {
+            setValue('endereco', response.data.logradouro)
+            setValue('bairro', response.data.bairro)
+            setValue('cidade', response.data.localidade)
+            setValue('estado', response.data.uf)
+        } else {
+            alert('CEP não encontrado.')
+        }
     } catch (error) {
-      console.error("Erro ao buscar CEP", error);
+        console.log('Erro ao buscar CEP: ', error)
     }
-  }
-};
+}
 
-export { buscaCep, handleCepChange };
+export default buscaCep
