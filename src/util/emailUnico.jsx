@@ -1,6 +1,7 @@
+import api from "../services/ApiUrl";
 async function checkEmailUnico(email) {
     try {
-        const response = await fetch(`http://localhost:3000/usuarios?email=${email}`)
+        const response = await api.get(`/usuarios?email=${email}`)
         const data = await response.json()
         return data.length === 0
     } catch (error) {

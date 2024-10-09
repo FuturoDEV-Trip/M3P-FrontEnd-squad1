@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import Menu from '../../componentes/Menu/Menu'
+import api from '../../services/ApiUrl'
 
 function PerfilUsuario() {
     const { register, handleSubmit, setValue } = useForm()
@@ -9,42 +10,42 @@ function PerfilUsuario() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        const usuarioNome = localStorage.getItem('usuarioNome')
-        const usuarioId = localStorage.getItem('usuarioId')
-        setUsuario({ nome: usuarioNome, id: usuarioId })
-
-        if (usuarioId) {
-            carregarUsuario(usuarioId)
+        const usuario = JSON.parse(localStorage.getItem("usuario"));
+        if (usuario) {
+            setUsuario({ nome: usuario.nome, id: usuario.id })
+    
+            if (usuario.id) {
+                carregarUsuario(usuario.id)
+            }
+        } else {
+            console.error('Nenhum usuário encontrado no localStorage');
         }
     }, [])
 
     const carregarUsuario = async (id) => {
-        try {
-            const response = await fetch(`http://localhost:3000/usuarios/${id}`)
-            if (response.ok) {
-                const data = await response.json()
-                setUsuario(data)
+    try {
+        const responseCarregarUsuario = await api.get(`/usuarios/${id}`)
+        // console.log(responseCarregarUsuario.data);
+        if (responseCarregarUsuario.ok) {
+            const responseCarregarData = await responseCarregarUsuario.json()
+            setUsuario(responseCarregarData)
+           
 
-                for (const key in data) {
-                    setValue(key, data[key])
-                }
-            } else {
-                alert('Erro ao carregar os dados do usuário.')
+            for (const key in responseCarregarData) {
+                setValue(key, responseCarregarData[key])
+                console.log(key)
             }
-        } catch (error) {
+        } else {
             alert('Erro ao carregar os dados do usuário.')
         }
+    } catch (error) {
+        alert('Erro ao carregar os dados do usuário.')
     }
+}
 
-    const atualizarUsuario = async (data) => {
+    const atualizarUsuario = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/usuarios/${usuario.id}`, {
-                method: 'PUT',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
+            const response = await api.put(`/usuarios/${usuario.id}`)
 
             if (response.ok) {
                 alert('Dados atualizados com sucesso!')
@@ -66,7 +67,9 @@ function PerfilUsuario() {
 
         if (confirmar) {
             try {
-                const locaisResponse = await fetch(`http://localhost:3000/destinos?usuarioId=${id}`)
+                const locaisResponse = await api.get(
+                    `/destinos/destinos_usuario/${usuario.id}`
+                  );
                 if (!locaisResponse.ok) {
                     throw new Error('Erro ao verificar locais cadastrados.')
                 }
@@ -78,14 +81,12 @@ function PerfilUsuario() {
                     return
                 }
 
-                const response = await fetch(`http://localhost:3000/usuarios/${id}`, {
-                    method: 'DELETE',
-                })
+                const response = await api.delete(`http://localhost:3000/usuarios/${id}`)
 
                 if (response.ok) {
                     alert('Sua conta foi excluída!')
-                    localStorage.removeItem('usuarioNome')
-                    localStorage.removeItem('usuarioId')
+                    localStorage.removeItem('usuario.nome')
+                    localStorage.removeItem('usuario.id')
                     navigate('/')
                 } else {
                     alert("Erro ao excluir o usuário.")
@@ -101,11 +102,11 @@ function PerfilUsuario() {
             <div className='flex-row'>
                 <Menu></Menu>
                 <div className="container-bg">
-                    <h2 className='titulo'>Perfil do Usuário</h2>
+                    <h2 className='titulo'>Meu perfil</h2>
                     {usuario && (
                         <div className='flex-row'>
-                            <p><strong>ID:</strong> {usuario.id}</p>
-                            <p><strong>Nome:</strong> {usuario.nome}</p>
+                            <p><strong>ID:</strong> {usuario.id} </p>
+                            <p><strong>Viajante:</strong> {usuario.nome}</p>
                         </div>
                     )}
                     <div className='position-relative'>
@@ -131,27 +132,20 @@ function PerfilUsuario() {
 
                             <div className='row mt-4'>
                                 <div className='col-4'>
-                                    <select className='input-area w-100' {...register('sexo')}>
+                                    <select className='input-area w-100' {...register("sexo", { required: "Campo Obrigatório" })}>
                                         <option value="">Sexo</option>
                                         <option value="feminino">Feminino</option>
                                         <option value="masculino">Masculino</option>
                                         <option value="na">Prefiro não informar</option>
                                     </select>
                                 </div>
-                                <div className='col-4'>
-                                    <input
-                                        className='input-area w-100'
-                                        type="text"
-                                        placeholder='CPF'
-                                        {...register('cpf', { required: 'Campo Obrigatório' })}
-                                    />
-                                </div>
+                            
                                 <div className='col-4'>
                                     <input
                                         className='input-area w-100'
                                         type="date"
                                         placeholder='Data de Nascimento'
-                                        {...register('data_nasc', { required: 'Campo Obrigatório' })}
+                                        {...register('data_nascimento', { required: 'Campo Obrigatório' })}
                                     />
                                 </div>
                             </div>
@@ -169,7 +163,7 @@ function PerfilUsuario() {
                                         className='input-area w-100'
                                         type="text"
                                         placeholder='Senha'
-                                        {...register('senha', { required: 'Campo Obrigatório' })}
+                                        {...register('password', { required: 'Campo Obrigatório' })}
                                     />
                                 </div>
                             </div>

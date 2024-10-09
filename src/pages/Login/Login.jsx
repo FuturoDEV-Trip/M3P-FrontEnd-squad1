@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+import api from "../../services/ApiUrl";
 
 function Login() {
   const navigate = useNavigate();
@@ -12,14 +12,19 @@ function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:3000/login", {
+      const response = await api.post(`/login`, {
         email: data.email,
         password: data.password,
       });
 
-      const token = response.data.Token;
+      const { token, usuario } = response.data;
 
-      login({ email: data.email }, token);
+      localStorage.setItem("token", token);
+      localStorage.setItem("usuario", JSON.stringify(usuario));
+      login(usuario, token)
+
+      // const token = response.data.Token;
+      // login({ email: data.email }, token);
 
       navigate("/dashboard");
     } catch (error) {

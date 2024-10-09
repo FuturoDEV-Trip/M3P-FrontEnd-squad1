@@ -30,13 +30,15 @@ function AuthProvider({ children }) {
     initialState
   );
 
-  function login(user, token) {
+  function login(usuarioData, token) {
     localStorage.setItem("token", token);
-    dispatch({ type: "login", payload: { user, token } });
+    localStorage.setItem("usuario", JSON.stringify(usuarioData));
+    dispatch({ type: "login", payload: { usuarioData, token } });
   }
 
   function logout() {
-    localStorage.removeItem("token");
+      localStorage.removeItem("token");
+      localStorage.removeItem("usuario");
     dispatch({ type: "logout" });
   }
 

@@ -22,19 +22,18 @@ function MapaHome({ selectedDestino, destinos, zoomLevel }) {
     const [highlightedDestino, setHighlightedDestino] = useState(null);
 
     useEffect(() => {
-        if (selectedDestino) {
-            const lat = parseFloat(selectedDestino.coordenadas.lat);
-            const lon = parseFloat(selectedDestino.coordenadas.lng);
-            if (!isNaN(lat) && !isNaN(lon)) {
-                setPosition([lat, lon]);
-                setZoom(zoomLevel);
-                setHighlightedDestino(selectedDestino);
-            }
+
+        if (selectedDestino && selectedDestino.coordenadas_geo) {
+            const [lat, lon] = selectedDestino.coordenadas_geo.split(",").map(Number);
+            setPosition([lat, lon]);
+            setZoom(zoomLevel);
+            setHighlightedDestino(selectedDestino);
+
         } else {
             setZoom(4);
             setHighlightedDestino(null);
         }
-    }, [selectedDestino, zoomLevel]);
+    }, [selectedDestino, zoomLevel, destinos]);
 
     const defaultIcon = new L.Icon({
         iconUrl: iconUrl,
@@ -56,29 +55,31 @@ function MapaHome({ selectedDestino, destinos, zoomLevel }) {
         <MapContainer center={position} zoom={zoom} className="dash-map-container">
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright"></a>'
             />
-            {destinos.map((destino) => {
-                const lat = parseFloat(destino.coordenadas.lat);
-                const lon = parseFloat(destino.coordenadas.lng);
-                if (isNaN(lat) || isNaN(lon)) return null; 
-                return (
-                    <Marker
-                        key={destino.id}
-                        position={[lat, lon]}
-                        icon={
-                            destino.id === highlightedDestino?.id
-                                ? highlightedIcon
-                                : defaultIcon
-                        }
-                    >
-                        <Popup>
-                            <strong>{destino.nome}</strong>
-                            <br />
-                            {destino.cidade}, {destino.estado}
-                        </Popup>
-                    </Marker>
-                );
+            {destinos && destinos.map((destino) => {
+                if (destino.coordenadas_geo) {
+                    const [lat, lon] = destino.coordenadas_geo.split(",").map(Number);
+                    return (
+                        <Marker
+                            key={destino.id}
+                            position={[lat, lon]}
+                            icon={
+                                destino.id === highlightedDestino?.id
+                                    ? highlightedIcon
+                                    : defaultIcon
+                            }
+                        >
+                            <Popup>
+                                <strong>{destino.nome}</strong>
+                                <br />
+                                {destino.cidade}, {destino.estado}
+                            </Popup>
+                        </Marker>
+                    );
+                }
+                return null; 
+
             })}
             <ChangeView center={position} zoom={zoom} />
         </MapContainer>

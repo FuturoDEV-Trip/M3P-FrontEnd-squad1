@@ -4,10 +4,10 @@ const baseURL = 'http://localhost:3000'
 
 async function contaDados() {
     try {
-        const usuariosResponse = await axios.get(`${baseURL}/usuarios`)
+        const usuariosResponse = await axios.get(`${baseURL}/home/totalUsuariosAtivos`)
         const contUsuarios = usuariosResponse.data.length
 
-        const destinosResponse = await axios.get(`${baseURL}/destinos`)
+        const destinosResponse = await axios.get(`${baseURL}/home/totalDestinos`)
         const contDestinos = destinosResponse.data.length
 
         return { contUsuarios, contDestinos }

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import buscaCep from '../../util/buscaCep'
 import buscaCoordenadas from '../../util/buscaCoordenadas'
 import Menu from '../../componentes/Menu/Menu'
+import api from '../../services/ApiUrl'
 
 function CadastroDestino() {
     const { register, handleSubmit, setValue, formState } = useForm()
@@ -39,11 +40,7 @@ function CadastroDestino() {
     async function addDestino(data) {
         try {
             const destinoData = { ...data, usuarioId: usuario.id }
-            const response = await fetch('http://localhost:3000/destinos', {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+            const response = await api.post('/destinos', {
                 body: JSON.stringify(destinoData)
             })
 

@@ -23,7 +23,7 @@ function Mapa({ selectedDestino, destinos, zoomLevel }) {
 
     useEffect(() => {
         if (selectedDestino) {
-            const [lat, lon] = selectedDestino.coordenadas.split(",").map(Number)
+            const [lat, lon] = selectedDestino.coordenadas_geo.split(",").map(Number)
             setPosition([lat, lon])
             setZoom(zoomLevel)
             setHighlightedDestino(selectedDestino)
@@ -60,7 +60,7 @@ function Mapa({ selectedDestino, destinos, zoomLevel }) {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
             {destinos.map((destino) => {
-                const [lat, lon] = destino.coordenadas.split(",").map(Number)
+                const [lat, lon] = destino.coordenadas_geo.split(",").map(Number)
                 return (
                     <Marker
                         key={destino.id}
