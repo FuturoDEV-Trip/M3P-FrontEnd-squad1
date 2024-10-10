@@ -42,7 +42,7 @@ function CadastroDestino() {
     try {
       const destinoData = { ...data, usuarioId: usuario.id };
       const response = await api.post("/destinos", {
-        body: JSON.stringify(destinoData), //TODO verificar se tira o json stringfy
+        body: JSON.stringify(destinoData),
       });
 
       if (response.ok === false) {
@@ -103,13 +103,13 @@ function CadastroDestino() {
               <div className="row mt-3">
                 <div className="col-4">
                   <span className="error-message">
-                    {formState.errors?.coordenadas?.message}
+                    {formState.errors?.coordenadas_geo?.message}
                   </span>
                   <input
                     className="input-area w-100"
                     type="text"
                     placeholder="Coordenadas Geográficas"
-                    {...register("coordenadas", {
+                    {...register("coordenadas_geo", {
                       required: "Informe a latitude e longitude do local.",
                     })}
                     onBlur={onCoordenadasChange}

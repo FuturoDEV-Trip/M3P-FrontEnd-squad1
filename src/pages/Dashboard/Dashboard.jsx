@@ -99,7 +99,7 @@ function Dashboard() {
                   cidade={destino.cidade}
                   estado={destino.estado}
                   pais={destino.pais}
-                  coordenadas={destino.coordenadas}
+                  coordenadas={destino.coordenadas_geo}
                   onMouseEnter={() => handleMouseEnter(destino)}
                   onClick={() => handleCardClick(destino)}
                 />

@@ -4,3 +4,13 @@
     height: 100vh;
     width: auto;
 }
+
+.formulario-cadastro {
+    box-sizing: border-box;
+    background-color: #FFFBE9;
+    height: 100vh;
+    width: 100vw;
+    align-items: center;
+    margin-Left: 0px;
+    padding: 40px;
+}

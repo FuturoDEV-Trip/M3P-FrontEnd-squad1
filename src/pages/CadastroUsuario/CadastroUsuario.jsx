@@ -66,7 +66,7 @@ function CadastroUsuario() {
                         alt="Imagem lateral tela notebook com natureza sobreposta"
                     />
                 </div>
-                <div className="container-bg ml-500">
+                <div className="formulario-cadastro ml-500">
                     <h2 className="titulo">Cadastre-se</h2>
                     <div>
                         <form onSubmit={handleSubmit(addUser)}>
@@ -109,13 +109,13 @@ function CadastroUsuario() {
                                 </div>
                                 <div className="col-4">
                                     <span className="error-message">
-                                        {formState.errors?.data_nasc?.message}
+                                        {formState.errors?.data_nascimento?.message}
                                     </span>
                                     <input
                                         className="input-area w-100"
                                         type="date"
                                         placeholder="Data de Nascimento"
-                                        {...register("data_nasc", {
+                                        {...register("data_nascimento", {
                                             required: "Campo Obrigatório",
                                         })}
                                     />
@@ -136,13 +136,13 @@ function CadastroUsuario() {
                                 </div>
                                 <div className="col-4">
                                     <span className="error-message">
-                                        {formState.errors?.senha?.message}
+                                        {formState.errors?.password?.message}
                                     </span>
                                     <input
                                         className="input-area w-100"
                                         type="text"
                                         placeholder="Senha"
-                                        {...register("senha", { required: "Campo Obrigatório" })}
+                                        {...register("password", { required: "Campo Obrigatório" })}
                                     />
                                 </div>
                             </div>

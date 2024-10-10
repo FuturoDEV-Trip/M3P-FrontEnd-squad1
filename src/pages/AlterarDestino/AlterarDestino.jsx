@@ -127,7 +127,7 @@ function AlterarDestino() {
                       className="input-area w-100"
                       type="text"
                       placeholder="Coordenadas Geográficas"
-                      {...register("coordenadas", {
+                      {...register("coordenadas_geo", {
                         required: "Informe a latitude e longitude do local.",
                       })}
                       onBlur={onCoordenadasChange}
