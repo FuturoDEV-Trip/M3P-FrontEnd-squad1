@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import checkCpfUnico from "../../util/cpfUnico";
 import checkEmailUnico from "../../util/emailUnico";
 import { api } from "../../services/ApiUrl";
+import '../CadastroUsuario/CadastroUsuario.css'
 
 function CadastroUsuario() {
     const { register, handleSubmit, setValue, formState } = useForm();
@@ -59,7 +60,7 @@ function CadastroUsuario() {
     return (
         <>
             <div className="flex-row">
-                <div className="position-fixed">
+                <div className="imagem-lateral">
                     <img
                         src="../src/imgs/lateral.jpg"
                         alt="Imagem lateral tela notebook com natureza sobreposta"
