@@ -51,7 +51,15 @@ function Dashboard() {
     setSelectedDestino(destino);
     setZoomLevel(4);
   };
+  const handleMouseEnter = (destino) => {
+    setSelectedDestino(destino);
+    setZoomLevel(4);
+  };
 
+  const handleCardClick = (destino) => {
+    setSelectedDestino(destino);
+    setZoomLevel(10);
+  };
   const handleCardClick = (destino) => {
     setSelectedDestino(destino);
     setZoomLevel(10);
@@ -108,4 +116,5 @@ function Dashboard() {
   );
 }
 
+export default Dashboard;
 export default Dashboard;

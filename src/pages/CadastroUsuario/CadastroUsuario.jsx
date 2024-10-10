@@ -2,9 +2,9 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import buscaCep from "../../util/buscaCep";
 import { useNavigate } from "react-router-dom";
-// import checkCpfUnico from "../../util/cpfUnico"
-// import checkEmailUnico from "../../util/emailUnico";
-import api from "../../services/ApiUrl"
+import checkCpfUnico from "../../util/cpfUnico";
+import checkEmailUnico from "../../util/emailUnico";
+import { api } from "../../services/ApiUrl";
 
 function CadastroUsuario() {
   const { register, handleSubmit, setValue, formState } = useForm();
@@ -23,32 +23,33 @@ function CadastroUsuario() {
     navigate("/");
   };
 
-  async function criarUsuario(data) {
+  async function addUser(data) {
     try {
-      const response = await api.post("/usuarios", data);
-      console.log("Requisição enviada com sucesso!");
-      console.log(response.data);
+      const cpfUnico = await checkCpfUnico(data.cpf);
+      if (!cpfUnico) {
+        alert("CPF já cadastrado");
+        return;
+      }
 
-      if (response.status !== 201) {
-        alert("Erro ao cadastrar usuário.");
+      const emailUnico = await checkEmailUnico(data.email);
+      if (!emailUnico) {
+        alert("E-mail já cadastrado");
+        return;
+      }
+
+      const response = await fetch(`${api}/usuarios`, {
+        method: "post",
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok === false) {
+        alert("Erro ao cadastrar usuario.");
       } else {
         alert("Cadastro efetuado com sucesso!");
-        navigate("/Login");
+        navigate("/");
       }
-      // const cpfUnico = await checkCpfUnico(data.cpf);
-      // if (!cpfUnico) {
-      //   alert("Este CPF já foi cadastrado");
-      //   return;
-      // }
-
-      // const emailUnico = await checkEmailUnico(data.email);
-      // if (!emailUnico) {
-      //   alert("Este E-mail já foi cadastrado");
-      //   return;
-      // }
     } catch (error) {
-      console.error("Erro no cadastro:", error);
-      alert("Erro no cadastro do usuário.");
+      alert("Erro no cadastro do usuario.");
     }
   }
 
@@ -64,7 +65,7 @@ function CadastroUsuario() {
         <div className="container-bg ml-500">
           <h2 className="titulo">Cadastre-se</h2>
           <div>
-            <form onSubmit={handleSubmit(criarUsuario)}>
+            <form onSubmit={handleSubmit(addUser)}>
               <div className="row mt-4">
                 <div className="col-12">
                   <span className="error-message">
@@ -84,10 +85,7 @@ function CadastroUsuario() {
                   <span className="error-message">
                     {formState.errors?.sexo?.message}
                   </span>
-                  <select
-                    className="input-area w-100"
-                    {...register("sexo", { required: "Campo Obrigatório" })}
-                  >
+                  <select className="input-area w-100" {...register("sexo")}>
                     <option value="">Sexo</option>
                     <option value="feminino">Feminino</option>
                     <option value="masculino">Masculino</option>
@@ -107,13 +105,13 @@ function CadastroUsuario() {
                 </div>
                 <div className="col-4">
                   <span className="error-message">
-                    {formState.errors?.data_nascimento?.message}
+                    {formState.errors?.data_nasc?.message}
                   </span>
                   <input
                     className="input-area w-100"
                     type="date"
                     placeholder="Data de Nascimento"
-                    {...register("data_nascimento", {
+                    {...register("data_nasc", {
                       required: "Campo Obrigatório",
                     })}
                   />
@@ -134,13 +132,13 @@ function CadastroUsuario() {
                 </div>
                 <div className="col-4">
                   <span className="error-message">
-                    {formState.errors?.password?.message}
+                    {formState.errors?.senha?.message}
                   </span>
                   <input
                     className="input-area w-100"
                     type="text"
                     placeholder="Senha"
-                    {...register("password", { required: "Campo Obrigatório" })}
+                    {...register("senha", { required: "Campo Obrigatório" })}
                   />
                 </div>
               </div>
