@@ -1,6 +1,6 @@
 import "../CardDestino/CardDestino.css";
 
-function CardDestino({ nome, descricao, cidade, estado, pais, coordenadas, onMouseEnter, onMouseLeave, onClick }) {
+function CardDestino({ nome, descricao, cidade, estado, pais, coordenadas_geo, onMouseEnter, onMouseLeave, onClick }) {
     return (
         <>
             <div

@@ -1,9 +1,9 @@
 import axios from "axios"
 
-async function buscaCoordenadas(coordenadas, setValue) {
+async function buscaCoordenadas(coordenadas_geo, setValue) {
 
     try {
-        const [lat, lon] = coordenadas.split(',')
+        const [lat, lon] = coordenadas_geo.split(',')
 
         if (!lat || !lon) {
             throw new Error('Coordenadas inválidas.');

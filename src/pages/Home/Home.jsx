@@ -108,8 +108,8 @@ function Home() {
               nome={destino.nome}
               lat={destino.lat}
               lon={destino.lon}
-            //   latitude={destino.coordenadas.lat}
-            //   longitude={destino.coordenadas.lon}
+            //   latitude={destino.coordenadas_geo.lat}
+            //   longitude={destino.coordenadas_geo.lon}
               descricao={destino.descricao}
               onClick={() => handleCardClick(destino)}
             />
