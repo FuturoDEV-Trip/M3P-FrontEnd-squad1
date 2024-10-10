@@ -11,7 +11,16 @@ function CadastroDestino() {
   const [cep, setCep] = useState("");
   const [usuario, setUsuario] = useState({ nome: "", id: "" });
   const navigate = useNavigate();
+  const { register, handleSubmit, setValue, formState } = useForm();
+  const [cep, setCep] = useState("");
+  const [usuario, setUsuario] = useState({ nome: "", id: "" });
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const usuarioNome = localStorage.getItem("usuarioNome");
+    const usuarioId = localStorage.getItem("usuarioId");
+    setUsuario({ nome: usuarioNome, id: usuarioId });
+  }, []);
   useEffect(() => {
     const usuarioNome = localStorage.getItem("usuarioNome");
     const usuarioId = localStorage.getItem("usuarioId");
@@ -21,7 +30,15 @@ function CadastroDestino() {
   const handleDashboard = () => {
     navigate("/dashboard");
   };
+  const handleDashboard = () => {
+    navigate("/dashboard");
+  };
 
+  const onCepChange = async (e) => {
+    const cepValue = e.target.value.replace(/\D/g, "");
+    setCep(cepValue);
+    if (cepValue.length === 8) {
+      await buscaCep(cepValue, setValue);
   const onCepChange = async (e) => {
     const cepValue = e.target.value.replace(/\D/g, "");
     setCep(cepValue);
@@ -29,7 +46,14 @@ function CadastroDestino() {
       await buscaCep(cepValue, setValue);
     }
   };
+  };
 
+  const onCoordenadasChange = async (e) => {
+    const coordenadasValue = e.target.value;
+    if (coordenadasValue) {
+      await buscaCoordenadas(coordenadasValue, setValue);
+    }
+  };
   const onCoordenadasChange = async (e) => {
     const coordenadasValue = e.target.value;
     if (coordenadasValue) {
@@ -54,7 +78,45 @@ function CadastroDestino() {
       alert("Erro no cadastro do local.");
     }
   }
+      if (response.ok === false) {
+        alert("Erro ao cadastrar local.");
+      } else {
+        alert("Cadastro efetuado com sucesso!");
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      alert("Erro no cadastro do local.");
+    }
+  }
 
+  return (
+    <>
+      <div className="flex-row">
+        <Menu></Menu>
+        <div className="container-bg">
+          <h2 className="titulo">Cadastro de Local</h2>
+          <div>
+            <form className="container" onSubmit={handleSubmit(addDestino)}>
+              <div className="row">
+                <div className="col-12">
+                  <span className="f-10">
+                    ID: {usuario.id} {usuario.nome}
+                  </span>
+                </div>
+              </div>
+              <div className="row mt-4">
+                <div className="col-12">
+                  <span className="error-message">
+                    {formState.errors?.nome?.message}
+                  </span>
+                  <input
+                    className="input-area w-100"
+                    type="text"
+                    placeholder="Nome"
+                    {...register("nome", { required: "Campo Obrigatório" })}
+                  />
+                </div>
+              </div>
   return (
     <>
       <div className="flex-row">
@@ -99,7 +161,84 @@ function CadastroDestino() {
                   />
                 </div>
               </div>
+              <div className="row mt-4">
+                <div className="col-12">
+                  <span className="error-message">
+                    {formState.errors?.descricao?.message}
+                  </span>
+                  <textarea
+                    className="input-area w-100 descricao-local"
+                    type="text"
+                    placeholder="Descrição do local"
+                    {...register("descricao", {
+                      required: "Adicione uma descrição do local",
+                    })}
+                  />
+                </div>
+              </div>
 
+              <div className="row mt-3">
+                <div className="col-4">
+                  <span className="error-message">
+                    {formState.errors?.coordenadas?.message}
+                  </span>
+                  <input
+                    className="input-area w-100"
+                    type="text"
+                    placeholder="Coordenadas Geográficas"
+                    {...register("coordenadas", {
+                      required: "Informe a latitude e longitude do local.",
+                    })}
+                    onBlur={onCoordenadasChange}
+                  />
+                </div>
+                <div className="col-2">
+                  <span className="error-message">
+                    {formState.errors?.cep?.message}
+                  </span>
+                  <input
+                    className="input-area w-100"
+                    type="text"
+                    placeholder="CEP"
+                    {...register("cep")}
+                    value={cep}
+                    onChange={onCepChange}
+                  />
+                </div>
+                <div className="col-2">
+                  <span className="error-message">
+                    {formState.errors?.cidade?.message}
+                  </span>
+                  <input
+                    className="input-area w-100"
+                    type="text"
+                    placeholder="Cidade"
+                    {...register("cidade", { required: "Campo Obrigatório" })}
+                  />
+                </div>
+                <div className="col-2">
+                  <span className="error-message">
+                    {formState.errors?.estado?.message}
+                  </span>
+                  <input
+                    className="input-area w-100"
+                    type="text"
+                    placeholder="Estado"
+                    {...register("estado", { required: "Campo Obrigatório" })}
+                  />
+                </div>
+                <div className="col-2">
+                  <span className="error-message">
+                    {formState.errors?.pais?.message}
+                  </span>
+                  <input
+                    className="input-area w-100"
+                    type="text"
+                    placeholder="País"
+                    {...register("pais", { required: "Campo Obrigatório" })}
+                  />
+                </div>
+              </div>
               <div className="row mt-3">
                 <div className="col-4">
                   <span className="error-message">
@@ -184,6 +323,28 @@ function CadastroDestino() {
       </div>
     </>
   );
+              <div className="row gap-5">
+                <button
+                  onClick={handleDashboard}
+                  className="mt-5 btn-white btn-style w-50 col"
+                  type="button"
+                >
+                  Cancelar
+                </button>
+                <button
+                  className="mt-5 btn-yellow btn-style w-50 col"
+                  type="submit"
+                >
+                  Cadastrar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
+export default CadastroDestino;
 export default CadastroDestino;
