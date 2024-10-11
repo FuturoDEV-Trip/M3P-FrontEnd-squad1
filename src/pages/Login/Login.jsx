@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 import { useForm } from "react-hook-form";
-import {api} from "../../services/ApiUrl";
+import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
@@ -12,19 +12,14 @@ function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const response = await api.post(`/login`, {
+      const response = await axios.post("http://localhost:3000/login", {
         email: data.email,
         password: data.password,
       });
 
-      const { token, usuario } = response.data;
+      const token = response.data.Token;
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("usuario", JSON.stringify(usuario));
-      login(usuario, token)
-
-      // const token = response.data.Token;
-      // login({ email: data.email }, token);
+      login({ email: data.email }, token);
 
       navigate("/dashboard");
     } catch (error) {
@@ -34,42 +29,47 @@ function Login() {
   };
 
   return (
-    <div className="flex-row login-bg">
-      <div className="form-container-login column">
-        <div className="img-login">
-          <img
-            src="../src/imgs/frase-login.png"
-            alt="Birdy colecione suas histórias"
-          />
-        </div>
+    <>
+      <div className="flex-row login-bg">
+        <div className="form-container-login column">
+          <div className="img-login">
+            <img
+              src="../src/imgs/frase-login.png"
+              alt="Birdy colecione suas histórias"
+            />
+          </div>
 
-        <h2>Login</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="input-login column">
-          <input
-            className="input-area"
-            type="text"
-            placeholder="E-mail"
-            {...register("email", { required: "Campo Obrigatório." })}
-          />
-          <input
-            className="input-area"
-            type="password"
-            placeholder="Senha"
-            {...register("password", { required: "Campo Obrigatório." })}
-          />
-          <br />
-          <button type="submit" className="btn-style btn-yellow">
-            Entrar
-          </button>
-        </form>
-        <div className="flex-row f-12">
-          <p className="space f-branco">Ainda não tem cadastro?</p>
-          <Link className="texto-link" to="/cadastro-usuario">
-            <span className="texto-link">Cadastrar</span>
-          </Link>
+          <h2>Login</h2>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="input-login column"
+          >
+            <input
+              className="input-area"
+              type="text"
+              placeholder="E-mail"
+              {...register("email", { required: "Campo Obrigatório." })}
+            />
+            <input
+              className="input-area"
+              type="password"
+              placeholder="Senha"
+              {...register("password", { required: "Campo Obrigatório." })}
+            />{" "}
+            <br />
+            <button type="submit" className="btn-style btn-yellow">
+              Entrar
+            </button>
+          </form>
+          <div className="flex-row f-12">
+            <p className="space f-branco">Ainda não tem cadastro?</p>
+            <Link className="texto-link" to="/cadastro-usuario">
+              <span className="texto-link">Cadastrar</span>
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
