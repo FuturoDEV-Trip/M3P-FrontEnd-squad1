@@ -16,31 +16,53 @@ function AppRoutes() {
     <AuthProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro-usuario" element={<CadastroUsuario />} />
 
           <Route
             path="/dashboard"
-            element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>}
+            element={
+              <ProtectedRoute>
+                {" "}
+                <Dashboard />{" "}
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="/cadastro-local"
-            element={<ProtectedRoute> <CadastroDestino /> </ProtectedRoute>}
+            element={
+              <ProtectedRoute>
+                {" "}
+                <CadastroDestino />{" "}
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/locais"
-            element={<ProtectedRoute><ListaDestinos /></ProtectedRoute>} 
+            element={
+              <ProtectedRoute>
+                <ListaDestinos />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/perfil-usuario"
-            element={<ProtectedRoute><PerfilUsuario /></ProtectedRoute>}
+            element={
+              <ProtectedRoute>
+                <PerfilUsuario />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/alterar-local/:id"
-            element={<ProtectedRoute><AlterarDestino /></ProtectedRoute>} 
+            element={
+              <ProtectedRoute>
+                <AlterarDestino />
+              </ProtectedRoute>
+            }
           />
         </Routes>
       </Router>

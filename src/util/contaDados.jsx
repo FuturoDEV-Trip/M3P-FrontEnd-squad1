@@ -1,14 +1,11 @@
-import axios from "axios";
 import { api } from "../services/ApiUrl";
 
 async function contaDados() {
   try {
-    const usuariosResponse = await axios.get(
-      `${baseURL}/home/totalUsuariosAtivos`
-    );
+    const usuariosResponse = await api.get(`/home/totalUsuariosAtivos`);
     const contUsuarios = usuariosResponse.data.length;
 
-    const destinosResponse = await axios.get(`${baseURL}/home/totalDestinos`);
+    const destinosResponse = await api.get(`/home/totalDestinos`);
     const contDestinos = destinosResponse.data.length;
 
     return { contUsuarios, contDestinos };
