@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Menu from "../../componentes/Menu/Menu";
-import {api} from "../../services/ApiUrl";
+import { api } from "../../services/ApiUrl";
 
 function PerfilUsuario() {
   const { register, handleSubmit, setValue } = useForm();
@@ -84,9 +84,7 @@ function PerfilUsuario() {
           return;
         }
 
-        const response = await api.delete(
-          `http://localhost:3000/usuarios/${id}`
-        );
+        const response = await api.delete(`/usuarios/${id}`);
 
         if (response.ok) {
           alert("Sua conta foi excluída!");
