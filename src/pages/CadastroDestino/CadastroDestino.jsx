@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import buscaCep from "../../util/buscaCep";
 import buscaCoordenadas from "../../util/buscaCoordenadas";
 import Menu from "../../componentes/Menu/Menu";
-import api from "../../services/ApiUrl";
+import {api} from "../../services/ApiUrl";
 
 function CadastroDestino() {
   const { register, handleSubmit, setValue, formState } = useForm();

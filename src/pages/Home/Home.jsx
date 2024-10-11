@@ -4,7 +4,7 @@ import MapaHome from "../../componentes/Mapa/MapaHome";
 import Sidebar from "../../componentes/Sidebar/Sidebar";
 import CardInfo from "../../componentes/CardInfo/CardInfo";
 import { Link } from "react-router-dom";
-import api from "../../services/ApiUrl";
+import {api} from "../../services/ApiUrl";
 function Home() {
   const [contUsuariosAtivos, setContUsuariosAtivos] = useState(0);
   const [contDestinos, setContDestinos] = useState(0);
