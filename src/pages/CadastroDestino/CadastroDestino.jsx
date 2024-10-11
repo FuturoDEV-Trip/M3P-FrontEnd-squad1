@@ -61,7 +61,7 @@ function CadastroDestino() {
       <div className="flex-row-destino">
         <Menu />
         <div className="container-bg">
-          <h2 className="titulo">Cadastro de Local</h2>
+          <h2 className="titulo">Cadastre novo destino!</h2>
           <div>
             <form className="form-container" onSubmit={handleSubmit(addDestino)}>
               <div className="row">
