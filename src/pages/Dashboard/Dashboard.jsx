@@ -1,115 +1,115 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "../Dashboard/Dashboard.css";
-import Menu from "../../componentes/Menu/Menu";
-import contaDados from "../../util/contaDados";
-import CardDestino from "../../componentes/CardDestino/CardDestino";
-import Mapa from "../../componentes/Mapa/Mapa";
+import { useEffect, useState } from 'react';
+import '../Dashboard/Dashboard.css';
+import Menu from '../../componentes/Menu/Menu';
+import contaDados from '../../util/contaDados';
+import CardInfo from '../../componentes/CardInfo/CardInfo';
+import Mapa from '../../componentes/Mapa/Mapa';
+import useMediaQuery from '../../hooks/useMediaQuery';
 
 function Dashboard() {
-  const [contUsuarios, setContUsuarios] = useState(0);
-  const [contDestinos, setContDestinos] = useState(0);
-  const [destinos, setDestinos] = useState([]);
-  const [selectedDestino, setSelectedDestino] = useState(null);
-  const [zoomLevel, setZoomLevel] = useState(4);
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    async function fetchData() {
-      const { contUsuarios, contDestinos } = await contaDados();
-      setContUsuarios(contUsuarios);
-      setContDestinos(contDestinos);
+    const [contDestinos, setContDestinos] = useState(0);
+    const [destinos, setDestinos] = useState([]);
+    const [selectedDestino, setSelectedDestino] = useState(null);
+    const [zoomLevel, setZoomLevel] = useState(4);
+    const [isMobileMapVisible, setIsMobileMapVisible] = useState(false);
+    const [selectedDestinoForMap, setSelectedDestinoForMap] = useState(null);
 
-      const response = await fetch("http://localhost:3000/destinos");
-      const data = await response.json();
-      setDestinos(data);
-    }
+     const isMobile = useMediaQuery('(max-width: 768px)');
 
-    fetchData();
-  }, []);
+    useEffect(() => {
+        async function fetchData() {
+            const {  contDestinos } = await contaDados();
+            setContDestinos(contDestinos);
 
-  const handleNovoLocal = () => {
-    navigate("/cadastro-local");
-  };
+            const response = await fetch('http://localhost:3000/destinos');
+            const data = await response.json();
+            setDestinos(data);
+        }
 
-  const handleMouseEnter = (destino) => {
-    setSelectedDestino(destino);
-    setZoomLevel(4);
-  };
+        fetchData();
+    }, []);
 
-  const handleCardClick = (destino) => {
-    setSelectedDestino(destino);
-    setZoomLevel(10);
-  };
+    const handleMouseEnter = (destino) => {
+        if (!isMobile) {
+            setSelectedDestino(destino);
+            setZoomLevel(4);
+        }
+    };
 
-  return (
-    <>
-      <div className="flex-row">
-        <Menu></Menu>
-        <Mapa
-          selectedDestino={selectedDestino}
-          destinos={destinos}
-          zoomLevel={zoomLevel}
-        />
-        <div className="flex-column container-bg">
-          <div className="position-fixed dashboard-container">
-            <div className="d-flex align-items-baseline">
-              <h2 className="titulo">Dashboard</h2>
-              <button
-                onClick={handleNovoLocal}
-                className="btn-yellow btn-style f-13"
-              >
-                Novo Local
-              </button>
-            </div>
+    const handleCardClick = (destino) => {
+        if (!isMobile) {
+            setSelectedDestino(destino);
+            setZoomLevel(10);
+        }
+    };
 
-            <div className="flex-row">
-              <h5 className="card">
-                <div className="flex-row  justify-content-between">
-                  <span className="num-card">{contUsuarios}</span>
-                  <img
-                    className="icon-card"
-                    src="../src/imgs/user-icon.png"
-                    alt="Icon Usuário"
-                  />
+    const handleOpenMobileMap = (destino) => {
+        setSelectedDestinoForMap(destino);
+        setIsMobileMapVisible(true);
+    };
+
+    const handleCloseMobileMap = () => {
+        setIsMobileMapVisible(false);
+        setSelectedDestinoForMap(null);
+    };
+
+    return (
+        <>
+            <div className="dashboard-container">
+                <Menu />
+                <div className="content">
+                    <div className="flex-row first-row">
+                        <div className="flex-column first-column">
+                            <div className="titulo">
+                                <h2>Bem-vindo ao Birdy!</h2>
+                            </div>
+                            <div className="card">
+                                Meus destinos
+                                <div className="flex-row justify-content-between">
+                                    <span className="num-card">{contDestinos}</span>
+                                    <img className="icon-card" src="../src/imgs/local-icon.png" alt="Icone Localização" />
+                                </div>
+                            </div>
+                        </div>
+                        {!isMobile && (
+                            <div className="map-container">
+                                <Mapa selectedDestino={selectedDestino} destinos={destinos} zoomLevel={zoomLevel} />
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="lista-locais">
+                        {destinos.map((destino) => (
+                            <CardInfo
+                                key={destino.id}
+                                nome={destino.nome}
+                                descricao={destino.descricao}
+                                cidade={destino.cidade}
+                                estado={destino.estado}
+                                pais={destino.pais}
+                                coordenadas={destino.coordenadas}
+                                onMouseEnter={() => handleMouseEnter(destino)}
+                                onClick={() => handleCardClick(destino)} 
+                                onOpenMobileMap={() => handleOpenMobileMap(destino)} 
+                                isMobile={isMobile}
+                            />
+                        ))}
+                    </div>
                 </div>
-                Usuários
-              </h5>
-              <h5 className="card">
-                <div className="flex-row  justify-content-between">
-                  <span className="num-card">{contDestinos}</span>
-                  <img
-                    className="icon-card"
-                    src="../src/imgs/local-icon.png"
-                    alt="Icone Localização"
-                  />
-                </div>
-                Locais
-              </h5>
+                {isMobile && isMobileMapVisible && selectedDestinoForMap && (
+                    <div className="mobile-map-overlay">
+                        <div className="mobile-map-container">
+                            <button className="close-map-btn" onClick={handleCloseMobileMap}>
+                                Fechar
+                            </button>
+                            <Mapa selectedDestino={selectedDestinoForMap} destinos={destinos} zoomLevel={10} />
+                        </div>
+                    </div>
+                )}
             </div>
-          </div>
-
-          <div className="lista-locais">
-            <div>
-              {destinos.map((destino) => (
-                <CardDestino
-                  key={destino.id}
-                  nome={destino.nome}
-                  descricao={destino.descricao}
-                  cidade={destino.cidade}
-                  estado={destino.estado}
-                  pais={destino.pais}
-                  coordenadas={destino.coordenadas_geo}
-                  onMouseEnter={() => handleMouseEnter(destino)}
-                  onClick={() => handleCardClick(destino)}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+        </>
+    );
 }
 
 export default Dashboard;
