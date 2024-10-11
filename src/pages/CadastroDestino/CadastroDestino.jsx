@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import buscaCep from "../../util/buscaCep";
 import buscaCoordenadas from "../../util/buscaCoordenadas";
 import Menu from "../../componentes/Menu/Menu";
-import {api} from "../../services/ApiUrl";
+import { api } from "../../services/ApiUrl";
+import './CadastroDestino.css'; 
 
 function CadastroDestino() {
   const { register, handleSubmit, setValue, formState } = useForm();
@@ -29,7 +30,6 @@ function CadastroDestino() {
       await buscaCep(cepValue, setValue);
     }
   };
-
 
   const onCoordenadasChange = async (e) => {
     const coordenadasValue = e.target.value;
@@ -58,12 +58,12 @@ function CadastroDestino() {
 
   return (
     <>
-      <div className="flex-row">
-        <Menu></Menu>
+      <div className="flex-row-destino">
+        <Menu />
         <div className="container-bg">
-          <h2 className="titulo">Cadastro de Local</h2>
+          <h2 className="titulo">Cadastre novo destino!</h2>
           <div>
-            <form className="container" onSubmit={handleSubmit(addDestino)}>
+            <form className="form-container" onSubmit={handleSubmit(addDestino)}>
               <div className="row">
                 <div className="col-12">
                   <span className="f-10">
@@ -77,7 +77,7 @@ function CadastroDestino() {
                     {formState.errors?.nome?.message}
                   </span>
                   <input
-                    className="input-area w-100"
+                    className="input-area"
                     type="text"
                     placeholder="Nome"
                     {...register("nome", { required: "Campo Obrigatório" })}
@@ -90,8 +90,7 @@ function CadastroDestino() {
                     {formState.errors?.descricao?.message}
                   </span>
                   <textarea
-                    className="input-area w-100 descricao-local"
-                    type="text"
+                    className="input-area descricao-local"
                     placeholder="Descrição do local"
                     {...register("descricao", {
                       required: "Adicione uma descrição do local",
@@ -106,7 +105,7 @@ function CadastroDestino() {
                     {formState.errors?.coordenadas_geo?.message}
                   </span>
                   <input
-                    className="input-area w-100"
+                    className="input-area"
                     type="text"
                     placeholder="Coordenadas Geográficas"
                     {...register("coordenadas_geo", {
@@ -120,7 +119,7 @@ function CadastroDestino() {
                     {formState.errors?.cep?.message}
                   </span>
                   <input
-                    className="input-area w-100"
+                    className="input-area"
                     type="text"
                     placeholder="CEP"
                     {...register("cep")}
@@ -133,7 +132,7 @@ function CadastroDestino() {
                     {formState.errors?.cidade?.message}
                   </span>
                   <input
-                    className="input-area w-100"
+                    className="input-area"
                     type="text"
                     placeholder="Cidade"
                     {...register("cidade", { required: "Campo Obrigatório" })}
@@ -144,7 +143,7 @@ function CadastroDestino() {
                     {formState.errors?.estado?.message}
                   </span>
                   <input
-                    className="input-area w-100"
+                    className="input-area"
                     type="text"
                     placeholder="Estado"
                     {...register("estado", { required: "Campo Obrigatório" })}
@@ -155,7 +154,7 @@ function CadastroDestino() {
                     {formState.errors?.pais?.message}
                   </span>
                   <input
-                    className="input-area w-100"
+                    className="input-area"
                     type="text"
                     placeholder="País"
                     {...register("pais", { required: "Campo Obrigatório" })}
@@ -166,13 +165,13 @@ function CadastroDestino() {
               <div className="row gap-5">
                 <button
                   onClick={handleDashboard}
-                  className="mt-5 btn-white btn-style w-50 col"
+                  className="btn-white btn-style col"
                   type="button"
                 >
                   Cancelar
                 </button>
                 <button
-                  className="mt-5 btn-yellow btn-style w-50 col"
+                  className="btn-yellow btn-style col"
                   type="submit"
                 >
                   Cadastrar
@@ -180,8 +179,8 @@ function CadastroDestino() {
               </div>
             </form>
           </div>
-        </div >
-      </div >
+        </div>
+      </div>
     </>
   );
 }
