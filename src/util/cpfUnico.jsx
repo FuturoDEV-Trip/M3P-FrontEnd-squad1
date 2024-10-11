@@ -1,4 +1,4 @@
-import api from "../services/ApiUrl";
+import {api} from "../services/ApiUrl";
 
 async function checkCpfUnico(cpf) {
   try {
