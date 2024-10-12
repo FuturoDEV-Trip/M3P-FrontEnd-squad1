@@ -4,7 +4,7 @@ import MapaHome from "../../componentes/Mapa/MapaHome";
 import Sidebar from "../../componentes/Sidebar/Sidebar";
 import CardInfo from "../../componentes/CardInfo/CardInfo";
 import { Link } from "react-router-dom";
-import {api} from "../../services/ApiUrl";
+import { api } from "../../services/ApiUrl";
 function Home() {
   const [contUsuariosAtivos, setContUsuariosAtivos] = useState(0);
   const [contDestinos, setContDestinos] = useState(0);
@@ -14,21 +14,25 @@ function Home() {
 
   useEffect(() => {
     async function fetchData() {
-        try {
-            const responseUsuariosAtivos = await api.get("/home/totalUsuariosAtivos");
-            const usuariosAtivosData = responseUsuariosAtivos.data.usuariosAtivos;
-            setContUsuariosAtivos(usuariosAtivosData.count);
+      try {
+        const responseUsuariosAtivos = await api.get(
+          "/home/totalUsuariosAtivos"
+        );
+        console.log(responseUsuariosAtivos);
+        const usuariosAtivosData =
+          responseUsuariosAtivos.data.totalUsuariosAtivos;
+        setContUsuariosAtivos(usuariosAtivosData.count);
 
-            const responseDestinos = await api.get("/destinos/totalDestinos");
-            const data = responseDestinos.data;  
-            setDestinos(data.rows);              
-            setContDestinos(data.count);         
-        } catch (error) {
+        const responseDestinos = await api.get("/destinos/totalDestinos");
+        const data = responseDestinos.data;
+        setDestinos(data.rows);
+        setContDestinos(data.count);
+      } catch (error) {
         console.error("Erro ao buscar dados:", error);
-            }
-        }
+      }
+    }
     fetchData();
-    }, []);
+  }, []);
 
   const handleCardClick = (destino) => {
     setSelectedDestino(destino);
@@ -81,7 +85,6 @@ function Home() {
                 alt="Icon Destinos"
               />
               <span className="dash-num-card">{contDestinos}</span>
-
             </div>
           </div>
         </div>
@@ -108,8 +111,8 @@ function Home() {
               nome={destino.nome}
               lat={destino.lat}
               lon={destino.lon}
-            //   latitude={destino.coordenadas_geo.lat}
-            //   longitude={destino.coordenadas_geo.lon}
+              //   latitude={destino.coordenadas_geo.lat}
+              //   longitude={destino.coordenadas_geo.lon}
               descricao={destino.descricao}
               onClick={() => handleCardClick(destino)}
             />

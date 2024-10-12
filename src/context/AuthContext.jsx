@@ -1,6 +1,7 @@
-import { createContext, useContext, useReducer, useEffect } from "react";
-import axios from "axios";
+import { createContext, useContext, useReducer } from "react";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { api } from "../services/ApiUrl";
 
 const AuthContext = createContext();
 
@@ -32,42 +33,29 @@ function AuthProvider({ children }) {
     initialState
   );
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("usuario");
-    const storedToken = localStorage.getItem("token");
-
-    if (storedUser && storedToken) {
-      dispatch({
-        type: "login",
-        payload: { user: JSON.parse(storedUser), token: storedToken },
-      });
-    }
-  }, []);
+  const navigate = useNavigate();
 
   const login = async (credentials) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/login",
-        credentials
-      );
-      const { Token: token } = response.data;
+      const response = await api.post("/login", credentials);
 
-      localStorage.setItem("token", token);
-      localStorage.setItem(
-        "usuario",
-        JSON.stringify({ email: credentials.email })
-      );
+      if (response.status === 200 && response.data.token) {
+        const { token, usuario } = response.data;
 
-      dispatch({
-        type: "login",
-        payload: { user: { email: credentials.email }, token },
-      });
+        localStorage.setItem("token", token);
+        localStorage.setItem("usuario", JSON.stringify(usuario));
 
-      toast.success("Login realizado com sucesso!");
+        dispatch({
+          type: "login",
+          payload: { user: usuario, token },
+        });
+
+        toast.success("Login realizado com sucesso!");
+        navigate("/dashboard");
+      }
     } catch (error) {
+      toast.error("E-mail ou senha incorretos.");
       console.error("Erro de autenticação: ", error);
-
-      toast.error("Erro de autenticação: E-mail ou senha incorretos.");
     }
   };
 
