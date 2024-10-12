@@ -19,12 +19,10 @@ function Home() {
           "/home/totalUsuariosAtivos"
         );
         console.log(responseUsuariosAtivos);
-
         const usuariosAtivosData =
-          responseUsuariosAtivos.data.totalUsuariosAtivos;
-        console.log("cantidad de usuarios activos:", usuariosAtivosData);
-
-        setContUsuariosAtivos(usuariosAtivosData);
+          responseUsuariosAtivos.data.data.totalUsuariosAtivos;
+        console.log("cantidad de usuario", usuariosAtivosData);
+        setContUsuariosAtivos(usuariosAtivosData.count);
 
         const responseDestinos = await api.get("/destinos/totalDestinos");
         const data = responseDestinos.data;
