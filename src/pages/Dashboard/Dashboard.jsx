@@ -62,7 +62,7 @@ function Dashboard() {
                     <div className="flex-row first-row">
                         <div className="flex-column first-column">
                             <div className="titulo">
-                                <h2>Bem-vindo ao Birdy!</h2>
+                                <h2>Bem-vindo(a) ao Birdy!</h2>
                             </div>
                             <div className="card">
                                 Meus destinos
