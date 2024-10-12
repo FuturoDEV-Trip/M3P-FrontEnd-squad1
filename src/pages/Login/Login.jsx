@@ -1,9 +1,9 @@
 import "../Login/Login.css";
 import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 import { useForm } from "react-hook-form";
-import {api} from "../../services/ApiUrl";
+import { api } from "../../services/ApiUrl";
 
 function Login() {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ function Login() {
 
       localStorage.setItem("token", token);
       localStorage.setItem("usuario", JSON.stringify(usuario));
-      login(usuario, token)
+      login(usuario, token);
 
       // const token = response.data.Token;
       // login({ email: data.email }, token);
