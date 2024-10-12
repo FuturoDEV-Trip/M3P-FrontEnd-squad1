@@ -4,7 +4,7 @@ import Menu from "../../componentes/Menu/Menu";
 import contaDados from "../../util/contaDados";
 import CardInfo from "../../componentes/CardInfo/CardInfo";
 import Mapa from "../../componentes/Mapa/Mapa";
-// import useMediaQuery from '../../hooks/useMediaQuery';
+import useMediaQuery from "../../hooks/useMediaQuery";
 
 function Dashboard() {
   const [contDestinos, setContDestinos] = useState(0);
@@ -14,7 +14,7 @@ function Dashboard() {
   const [isMobileMapVisible, setIsMobileMapVisible] = useState(false);
   const [selectedDestinoForMap, setSelectedDestinoForMap] = useState(null);
 
-  //  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
     async function fetchData() {
