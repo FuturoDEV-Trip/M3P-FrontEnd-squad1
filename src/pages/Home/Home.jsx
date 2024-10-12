@@ -15,9 +15,7 @@ function Home() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const responseUsuariosAtivos = await api.get(
-          "/home/totalUsuariosAtivos"
-        );
+        const responseUsuariosAtivos = await api.get("/home/usuariosAtivos");
         console.log(responseUsuariosAtivos);
         const usuariosAtivosData =
           responseUsuariosAtivos.data.data.totalUsuariosAtivos;
