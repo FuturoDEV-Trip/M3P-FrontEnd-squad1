@@ -2,6 +2,7 @@ import "../Login/Login.css";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const { login } = useAuth();
@@ -10,9 +11,17 @@ function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    await login({ email: data.email, password: data.password });
+    const isSuccess = await login({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (isSuccess) {
+      navigate("/dashboard");
+    }
   };
 
   return (

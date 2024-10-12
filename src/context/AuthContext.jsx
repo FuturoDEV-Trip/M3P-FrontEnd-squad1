@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
-import { useNavigate } from "react-router-dom";
+
 import toast from "react-hot-toast";
 import { api } from "../services/ApiUrl";
 
@@ -33,8 +33,6 @@ function AuthProvider({ children }) {
     initialState
   );
 
-  const navigate = useNavigate();
-
   const login = async (credentials) => {
     try {
       const response = await api.post("/login", credentials);
@@ -51,11 +49,12 @@ function AuthProvider({ children }) {
         });
 
         toast.success("Login realizado com sucesso!");
-        navigate("/dashboard");
+        return true;
       }
     } catch (error) {
       toast.error("E-mail ou senha incorretos.");
       console.error("Erro de autenticação: ", error);
+      return false;
     }
   };
 
