@@ -6,11 +6,11 @@ import CardInfo from "../../componentes/CardInfo/CardInfo";
 import { Link } from "react-router-dom";
 import { api } from "../../services/ApiUrl";
 function Home() {
-  const [contUsuariosAtivos, setContUsuariosAtivos] = useState(0);
-  const [contDestinos, setContDestinos] = useState(0);
-  const [destinos, setDestinos] = useState([]);
-  const [selectedDestino, setSelectedDestino] = useState(null);
-  const [zoomLevel, setZoomLevel] = useState(4);
+  // const [contUsuariosAtivos, setContUsuariosAtivos] = useState(0);
+  // const [contDestinos, setContDestinos] = useState(0);
+  // const [destinos, setDestinos] = useState([]);
+  // const [selectedDestino, setSelectedDestino] = useState(null);
+  // const [zoomLevel, setZoomLevel] = useState(4);
 
   useEffect(() => {
     async function fetchData() {
