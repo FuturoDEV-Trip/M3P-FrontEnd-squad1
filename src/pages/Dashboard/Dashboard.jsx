@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import "../Dashboard/Dashboard.css";
 import Menu from "../../componentes/Menu/Menu";
 import contaDados from "../../util/contaDados";
-import CardInfo from "../../componentes/CardInfo/CardInfo";
 import Mapa from "../../componentes/Mapa/Mapa";
+import CardDestino from "../../componentes/CardDestino/CardDestino";
 
 
 function Dashboard() {
@@ -37,13 +37,7 @@ function Dashboard() {
       setZoomLevel(10);
   };
 
-  const handleOpenMobileMap = (destino) => {
-    setSelectedDestinoForMap(destino);
-  };
 
-  const handleCloseMobileMap = () => {
-    setSelectedDestinoForMap(null);
-  };
 
   return (
     <>
@@ -78,34 +72,25 @@ function Dashboard() {
 
           <div className="lista-locais">
             {destinos.map((destino) => (
-              <CardInfo
+              <CardDestino
                 key={destino.id}
                 nome={destino.nome}
                 descricao={destino.descricao}
                 cidade={destino.cidade}
                 estado={destino.estado}
                 pais={destino.pais}
-                coordenadas={destino.coordenadas}
+                coordenadas_geo={destino.coordenadas_geo}
                 onMouseEnter={() => handleMouseEnter(destino)}
                 onClick={() => handleCardClick(destino)}
-                onOpenMobileMap={() => handleOpenMobileMap(destino)}
+               
               />
             ))}
           </div>
-        </div>
-          <div className="mobile-map-overlay">
-            <div className="mobile-map-container">
-              <button className="close-map-btn" onClick={handleCloseMobileMap}>
-                Fechar
-              </button>
-              <Mapa
-                selectedDestino={selectedDestinoForMap}
-                destinos={destinos}
-                zoomLevel={10}
-              />
+        </div>  
+            
             </div>
-          </div>
-      </div>
+         
+            
     </>
   );
 }
