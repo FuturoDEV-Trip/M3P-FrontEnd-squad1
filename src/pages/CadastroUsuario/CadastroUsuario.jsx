@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import buscaCep from "../../util/buscaCep";
 import { useNavigate } from "react-router-dom";
-import checkCpfUnico from "../../util/cpfUnico";
+// import checkCpfUnico from "../../util/cpfUnico";
 import checkEmailUnico from "../../util/emailUnico";
 import { api } from "../../services/ApiUrl";
 import '../CadastroUsuario/CadastroUsuario.css'
@@ -26,11 +26,11 @@ function CadastroUsuario() {
 
     async function addUser(data) {
         try {
-            const cpfUnico = await checkCpfUnico(data.cpf);
-            if (!cpfUnico) {
-                alert("CPF já cadastrado");
-                return;
-            }
+            // const cpfUnico = await checkCpfUnico(data.cpf);
+            // if (!cpfUnico) {
+            //     alert("CPF já cadastrado");
+            //     return;
+            // }
 
             const emailUnico = await checkEmailUnico(data.email);
             if (!emailUnico) {
