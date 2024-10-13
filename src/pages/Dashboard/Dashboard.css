@@ -3,7 +3,7 @@
     width: 100vw;
     height: 100vh;
     background-color: antiquewhite;   
-    overflow: hidden;
+     overflow: hidden;
 }
 
 .menu {
@@ -147,5 +147,12 @@
         width: 100%;
         margin-left: 0;
     }
-}   
+}  
+
+@media (max-width: 768px) {
+    .card {
+      width: 90%;  /* O card ocupará toda a largura da tela */
+      padding: 15px; /* Reduz o padding em mobile */
+    }
+  }
 
