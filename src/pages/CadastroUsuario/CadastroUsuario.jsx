@@ -60,12 +60,6 @@ function CadastroUsuario() {
     return (
         <>
             <div className="flex-row">
-                <div className="imagem-lateral">
-                    <img
-                        src="../src/imgs/lateral.jpg"
-                        alt="Imagem lateral tela notebook com natureza sobreposta"
-                    />
-                </div>
                 <div className="formulario-cadastro ml-500">
                     <h2 className="titulo">Cadastre-se</h2>
                     <div>
