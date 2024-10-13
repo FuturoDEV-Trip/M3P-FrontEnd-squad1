@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../Dashboard/Dashboard.css";
 import Menu from "../../componentes/Menu/Menu";
-import contaDados from "../../util/contaDados";
+
 import CardInfo from "../../componentes/CardInfo/CardInfo";
 import Mapa from "../../componentes/Mapa/Mapa";
 import { api } from "../../services/ApiUrl";
@@ -15,12 +15,27 @@ function Dashboard() {
 
   useEffect(() => {
     async function fetchData() {
-      const { contDestinos } = await contaDados();
-      setContDestinos(contDestinos);
+      try {
+        const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("token");
 
-      const response = await api.get("/destinos");
-      const data = await response.json();
-      setDestinos(data);
+        if (!token) {
+          console.error("No hay un token disponible");
+          return;
+        }
+
+        const response = await api.get(
+          `destinos/listarDestinosUsuario/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(response);
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
     }
 
     fetchData();
