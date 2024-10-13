@@ -22,6 +22,7 @@ function Home() {
         setContUsuariosAtivos(usuariosAtivosData);
 
         const responseDestinos = await api.get("/home/totalDestinos");
+        console.log("cantidad de paseos", responseDestinos);
         const data = responseDestinos.data;
         setDestinos(data.destinos);
         setContDestinos(data.totalDestinos);
