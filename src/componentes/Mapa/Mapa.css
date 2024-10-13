@@ -14,9 +14,8 @@
 
 @media (max-width: 768px) {
     .map-container {
-        width: 100%;
-        height: 300px;
-       
+        display: none; /* Esconde o mapa no mobile */
     }
-} 
+}
+
 
