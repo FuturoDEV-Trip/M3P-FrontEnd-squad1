@@ -17,10 +17,9 @@ function Home() {
       try {
         const responseUsuariosAtivos = await api.get("/home/usuariosAtivos");
         console.log(responseUsuariosAtivos);
-        const usuariosAtivosData =
-          responseUsuariosAtivos.data.totalUsuariosAtivos;
+        const usuariosAtivosData = responseUsuariosAtivos.data.usuariosAtivos;
         console.log("cantidad de usuario", usuariosAtivosData);
-        setContUsuariosAtivos(usuariosAtivosData.count);
+        setContUsuariosAtivos(usuariosAtivosData);
 
         const responseDestinos = await api.get("/home/totalDestinos");
         const data = responseDestinos.data;
