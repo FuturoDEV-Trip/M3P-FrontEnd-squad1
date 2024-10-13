@@ -24,7 +24,7 @@ function Home() {
         const responseDestinos = await api.get("/home/totalDestinos");
         console.log("cantidad de paseos", responseDestinos);
         const data = responseDestinos.data;
-        setDestinos(data.destinos);
+        setDestinos(data.tours);
         setContDestinos(data.totalDestinos);
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
