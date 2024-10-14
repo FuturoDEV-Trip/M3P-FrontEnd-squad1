@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="./src/imgs/logo.png" width="15%" alt="Logo da Birdy" style="vertical-align: middle;"/>
+  <img src="/imgs/logo.png" width="15%" alt="Logo da Birdy" style="vertical-align: middle;"/>
   <h1>  Birdy: Viaje leve, seja sustentável,  colecione histórias! </h1>
 
 
@@ -43,33 +43,33 @@
 
 ## Tela Login
 
-  ![image](./src/imgs/login.png)
+  ![image](/imgs/login.png)
 
 
 ## Tela Cadastro
 
-  ![image](./src/imgs/cadastroUsuario.png)
+  ![image](/imgs/cadastroUsuario.png)
 
 ## Tela Home
 
-  ![image](./src/imgs/home.png)
+  ![image](/imgs/home.png)
 
 
 ## Tela Dashboard Privada
 
-![image](./src/imgs/dashboard.png)
+![image](/imgs/dashboard.png)
 
 ## Meu Perfil Privada
 
-  ![image](./src/imgs/meu-perfil.png)
+  ![image](/imgs/meu-perfil.png)
 
 ## Meus Destinos  Privada
 
-  ![image](./src/imgs/meusDestinos.png)
+  ![image](/imgs/meusDestinos.png)
 
 ## Novo Destino Privada
 
-  ![image](./src/imgs/novoDestino.png)
+  ![image](/imgs/novoDestino.png)
 
 ## 👀 Melhorias
 

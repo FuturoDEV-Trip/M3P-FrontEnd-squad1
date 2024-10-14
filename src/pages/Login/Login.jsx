@@ -29,7 +29,7 @@ function Login() {
       <div className="form-container-login column">
         <div className="img-login">
           <img
-            src="../src/imgs/frase-login.png"
+            src="/imgs/frase-login.png"
             alt="Birdy colecione suas histórias"
           />
         </div>
