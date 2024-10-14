@@ -17,22 +17,13 @@ function Dashboard() {
     async function fetchData() {
       try {
         const userId = localStorage.getItem("userId");
-        const token = localStorage.getItem("token");
 
-        if (!token) {
-          console.error("No hay un token disponible");
-          return;
-        }
+        console.log(userId);
 
         const response = await api.get(
-          `destinos/listarDestinosUsuario/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          `destinos/listarDestinosUsuario/${userId}`
         );
-        console.log(response);
+        console.log(`respuesta de la api`, response);
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
       }
