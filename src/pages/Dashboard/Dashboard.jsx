@@ -18,11 +18,14 @@ function Dashboard() {
       try {
         const userId = localStorage.getItem("userId");
 
-        console.log(userId);
+        console.log(`id de usuario en local storage`, userId);
 
         const response = await api.get(
           `destinos/listarDestinosUsuario/${userId}`
         );
+
+        setContDestinos(response.data.passeios.count);
+        setDestinos(response.data.passeios.rows);
         console.log(`respuesta de la api`, response);
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
