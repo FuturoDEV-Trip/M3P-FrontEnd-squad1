@@ -106,11 +106,6 @@ function Dashboard() {
             <button className="close-map-btn" onClick={handleCloseMobileMap}>
               Fechar
             </button>
-            <Mapa
-              selectedDestino={selectedDestinoForMap}
-              destinos={destinos}
-              zoomLevel={10}
-            />
           </div>
         </div>
       </div>
