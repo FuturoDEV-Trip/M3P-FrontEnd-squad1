@@ -9,27 +9,24 @@ function ListaDestinos() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const usuarioId = localStorage.getItem("usuarioId");
-
-    const carregarDestinos = async () => {
+    async function fetchData() {
       try {
-        const response = await fetch(
-          `http://localhost:3000/destinos?usuarioId=${usuarioId}`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setDestinos(data);
-        } else {
-          alert("Erro ao carregar os destinos.");
-        }
-      } catch (error) {
-        alert("Erro ao carregar os destinos.");
-      }
-    };
+        const userId = localStorage.getItem("userId");
 
-    if (usuarioId) {
-      carregarDestinos();
+        console.log(`id de usuario en local storage`, userId);
+
+        const response = await api.get(
+          `destinos/listarDestinosUsuario/${userId}`
+        );
+
+        setDestinos(response.data.passeios.rows);
+        console.log(`respuesta de la api`, response);
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
     }
+
+    fetchData();
   }, []);
 
   const handleAlterar = (id) => {
