@@ -25,21 +25,25 @@ function CadastroUsuario() {
     async function addUser(data) {
         try {
             const response = await fetch(`${api}/usuarios`, {
-                method: "post",
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(data),
             });
 
-            if (response.ok === false) {
-                alert("Erro ao cadastrar usuario.");
-            } else {
-                alert("Cadastro efetuado com sucesso!");
-                navigate("/");
+            if (!response.ok) {
+                const errorData = await response.json()
+                console.error('Erro ao cadastrar usuário:', errorData)
+                alert(`Erro ao cadastrar usuário: ${errorData.message || 'Erro desconhecido'}`)
+                return
             }
+
+            alert("Cadastro efetuado com sucesso!")
+            navigate("/")
         } catch (error) {
-            alert("Erro no cadastro do usuario.");
+            console.error('Erro no cadastro do usuário:', error)
+            alert("Erro no cadastro do usuário. Tente novamente mais tarde.")
         }
     }
 
