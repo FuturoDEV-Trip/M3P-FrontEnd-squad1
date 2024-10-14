@@ -1,6 +1,6 @@
 .login-bg {
     box-sizing: border-box;
-    background-image: url('../../imgs/background.jpg');
+    background-image: url('./imgs/background.jpg');
     background-color: #504d2c;
     background-size: cover;
     background-repeat: no-repeat;

@@ -23,7 +23,7 @@ function Menu() {
         <div className="menu-header">
           <img
             className="logo-img"
-            src="../src/imgs/birdy-icon.png"
+            src="./imgs/birdy-icon.png"
             alt="Logo Birdy"
           />
         </div>
