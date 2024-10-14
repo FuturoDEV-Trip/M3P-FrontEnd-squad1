@@ -45,7 +45,13 @@ function Dashboard() {
     setZoomLevel(10);
   };
 
+  const handleOpenMobileMap = (destino) => {
+    setSelectedDestinoForMap(destino);
+  };
 
+  const handleCloseMobileMap = () => {
+    setSelectedDestinoForMap(null);
+  };
 
   return (
     <>
@@ -80,17 +86,17 @@ function Dashboard() {
 
           <div className="lista-locais">
             {destinos.map((destino) => (
-              <CardDestino
+              <CardInfo
                 key={destino.id}
                 nome={destino.nome}
                 descricao={destino.descricao}
                 cidade={destino.cidade}
                 estado={destino.estado}
                 pais={destino.pais}
-                coordenadas_geo={destino.coordenadas_geo}
+                coordenadas={destino.coordenadas}
                 onMouseEnter={() => handleMouseEnter(destino)}
                 onClick={() => handleCardClick(destino)}
-               
+                onOpenMobileMap={() => handleOpenMobileMap(destino)}
               />
             ))}
           </div>
