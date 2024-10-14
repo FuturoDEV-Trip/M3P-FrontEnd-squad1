@@ -9,6 +9,7 @@ const initialState = {
   user: null,
   isAuthenticated: false,
   token: null,
+  userId: null,
 };
 
 function reducer(state, action) {
@@ -18,17 +19,24 @@ function reducer(state, action) {
         ...state,
         user: action.payload.user,
         token: action.payload.token,
+        userId: action.payload.userId,
         isAuthenticated: true,
       };
     case "logout":
-      return { ...state, user: null, token: null, isAuthenticated: false };
+      return {
+        ...state,
+        user: null,
+        token: null,
+        userId: null,
+        isAuthenticated: false,
+      };
     default:
       throw new Error("Unknown action");
   }
 }
 
 function AuthProvider({ children }) {
-  const [{ user, isAuthenticated, token }, dispatch] = useReducer(
+  const [{ user, isAuthenticated, token, userId }, dispatch] = useReducer(
     reducer,
     initialState
   );
@@ -42,10 +50,11 @@ function AuthProvider({ children }) {
 
         localStorage.setItem("token", token);
         localStorage.setItem("usuario", JSON.stringify(usuario));
+        localStorage.setItem("userId", usuario.id);
 
         dispatch({
           type: "login",
-          payload: { user: usuario, token },
+          payload: { user: usuario, token, userId: usuario.id },
         });
 
         toast.success("Login realizado com sucesso!");
@@ -58,17 +67,29 @@ function AuthProvider({ children }) {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("usuario");
-    dispatch({ type: "logout" });
+  const logout = async () => {
+    try {
+      const idUserActive = localStorage.getItem("userId");
 
-    toast.success("Logout realizado com sucesso!");
+      if (!idUserActive) return;
+
+      await api.put(`/home/${idUserActive}`);
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("usuario");
+      localStorage.removeItem("userId");
+      dispatch({ type: "logout" });
+
+      toast.success("Logout realizado com sucesso!");
+    } catch (error) {
+      toast.error("Erro ao realizar o logout. Tente novamente mais tarde.");
+      console.error("Erro de logout: ", error);
+    }
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, token, login, logout }}
+      value={{ user, isAuthenticated, token, userId, login, logout }}
     >
       {children}
     </AuthContext.Provider>

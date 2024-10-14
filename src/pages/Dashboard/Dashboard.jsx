@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import "../Dashboard/Dashboard.css";
 import Menu from "../../componentes/Menu/Menu";
-import contaDados from "../../util/contaDados";
-import Mapa from "../../componentes/Mapa/Mapa";
-import CardDestino from "../../componentes/CardDestino/CardDestino";
 
+import CardInfo from "../../componentes/CardInfo/CardInfo";
+import Mapa from "../../componentes/Mapa/Mapa";
+import { api } from "../../services/ApiUrl";
 
 function Dashboard() {
   const [contDestinos, setContDestinos] = useState(0);
@@ -13,28 +13,36 @@ function Dashboard() {
   const [zoomLevel, setZoomLevel] = useState(4);
   const [selectedDestinoForMap, setSelectedDestinoForMap] = useState(null);
 
-
   useEffect(() => {
     async function fetchData() {
-      const { contDestinos } = await contaDados();
-      setContDestinos(contDestinos);
+      try {
+        const userId = localStorage.getItem("userId");
 
-      const response = await fetch("http://localhost:3000/destinos");
-      const data = await response.json();
-      setDestinos(data);
+        console.log(`id de usuario en local storage`, userId);
+
+        const response = await api.get(
+          `destinos/listarDestinosUsuario/${userId}`
+        );
+
+        setContDestinos(response.data.passeios.count);
+        setDestinos(response.data.passeios.rows);
+        console.log(`respuesta de la api`, response);
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
     }
 
     fetchData();
   }, []);
 
   const handleMouseEnter = (destino) => {
-      setSelectedDestino(destino);
-      setZoomLevel(4);
+    setSelectedDestino(destino);
+    setZoomLevel(4);
   };
 
   const handleCardClick = (destino) => {
-      setSelectedDestino(destino);
-      setZoomLevel(10);
+    setSelectedDestino(destino);
+    setZoomLevel(10);
   };
 
 
@@ -61,13 +69,13 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-              <div className="map-container">
-                <Mapa
-                  selectedDestino={selectedDestino}
-                  destinos={destinos}
-                  zoomLevel={zoomLevel}
-                />
-              </div>
+            <div className="map-container">
+              <Mapa
+                selectedDestino={selectedDestino}
+                destinos={destinos}
+                zoomLevel={zoomLevel}
+              />
+            </div>
           </div>
 
           <div className="lista-locais">
@@ -86,11 +94,20 @@ function Dashboard() {
               />
             ))}
           </div>
-        </div>  
-            
-            </div>
-         
-            
+        </div>
+        <div className="mobile-map-overlay">
+          <div className="mobile-map-container">
+            <button className="close-map-btn" onClick={handleCloseMobileMap}>
+              Fechar
+            </button>
+            <Mapa
+              selectedDestino={selectedDestinoForMap}
+              destinos={destinos}
+              zoomLevel={10}
+            />
+          </div>
+        </div>
+      </div>
     </>
   );
 }

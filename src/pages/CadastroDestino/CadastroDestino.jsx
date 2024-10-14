@@ -5,7 +5,7 @@ import buscaCep from "../../util/buscaCep";
 import buscaCoordenadas from "../../util/buscaCoordenadas";
 import Menu from "../../componentes/Menu/Menu";
 import { api } from "../../services/ApiUrl";
-import './CadastroDestino.css'; 
+import "./CadastroDestino.css";
 
 function CadastroDestino() {
   const { register, handleSubmit, setValue, formState } = useForm();
@@ -15,8 +15,8 @@ function CadastroDestino() {
 
   useEffect(() => {
     const usuarioNome = localStorage.getItem("usuarioNome");
-    const usuarioId = localStorage.getItem("usuarioId");
-    setUsuario({ nome: usuarioNome, id: usuarioId });
+    const userId = localStorage.getItem("userId");
+    setUsuario({ nome: usuarioNome, id: userId });
   }, []);
 
   const handleDashboard = () => {
@@ -40,12 +40,22 @@ function CadastroDestino() {
 
   async function addDestino(data) {
     try {
-      const destinoData = { ...data, usuarioId: usuario.id };
-      const response = await api.post("/destinos", {
-        body: JSON.stringify(destinoData),
-      });
+      const destinoData = {
+        usuario_id: Number(usuario.id),
+        nome: data.nome,
+        descricao: data.descricao,
+        coordenadas_geo: data.coordenadas_geo,
+        cep: data.cep,
+        cidade: data.cidade,
+        estado: data.estado,
+        pais: data.pais,
+      };
 
-      if (response.ok === false) {
+      console.log(destinoData);
+
+      const response = await api.post("/destinos", destinoData);
+
+      if (response.status !== 201) {
         alert("Erro ao cadastrar local.");
       } else {
         alert("Cadastro efetuado com sucesso!");
@@ -63,7 +73,10 @@ function CadastroDestino() {
         <div className="container-bg">
           <h2 className="titulo">Cadastre novo destino!</h2>
           <div>
-            <form className="form-container" onSubmit={handleSubmit(addDestino)}>
+            <form
+              className="form-container"
+              onSubmit={handleSubmit(addDestino)}
+            >
               <div className="row">
                 <div className="col-12">
                   <span className="f-10">
@@ -170,10 +183,7 @@ function CadastroDestino() {
                 >
                   Cancelar
                 </button>
-                <button
-                  className="btn-yellow btn-style col"
-                  type="submit"
-                >
+                <button className="btn-yellow btn-style col" type="submit">
                   Cadastrar
                 </button>
               </div>

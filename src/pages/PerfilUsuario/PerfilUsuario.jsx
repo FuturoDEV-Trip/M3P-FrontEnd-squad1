@@ -6,28 +6,24 @@ import { api } from "../../services/ApiUrl";
 
 function PerfilUsuario() {
   const { register, handleSubmit, setValue } = useForm();
-  const [usuario, setUsuario] = useState({ nome: "", id: "" });
+  const [usuario, setUsuario] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const usuario = JSON.parse(localStorage.getItem("usuario"));
-    if (usuario) {
-      setUsuario({ nome: usuario.nome, id: usuario.id });
+    const userId = localStorage.getItem("userId");
 
-      if (usuario.id) {
-        carregarUsuario(usuario.id);
-      }
-    } else {
-      console.error("Nenhum usuário encontrado no localStorage");
+    if (userId) {
+      carregarUsuario(userId); // Llama a la función para cargar los datos del usuario
     }
   }, []);
 
   const carregarUsuario = async (id) => {
     try {
       const responseCarregarUsuario = await api.get(`/usuarios/${id}`);
-      // console.log(responseCarregarUsuario.data);
-      if (responseCarregarUsuario.ok) {
-        const responseCarregarData = await responseCarregarUsuario.json();
+
+      if (responseCarregarUsuario.status === 200) {
+        const responseCarregarData = responseCarregarUsuario.data;
+
         setUsuario(responseCarregarData);
 
         for (const key in responseCarregarData) {
@@ -44,7 +40,7 @@ function PerfilUsuario() {
 
   const atualizarUsuario = async () => {
     try {
-      const response = await api.put(`/usuarios/${usuario.id}`);
+      const response = await api.put(`/usuarios/${userId}`);
 
       if (response.ok) {
         alert("Dados atualizados com sucesso!");

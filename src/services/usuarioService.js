@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import { api } from "./ApiUrl";
 
 export const carregarUsuario = async (id) => {
@@ -35,5 +36,24 @@ export const excluirUsuario = async (id) => {
     return response.data;
   } catch (error) {
     throw new Error(error.message || "Erro ao excluir o usuário.");
+  }
+};
+
+export const registrarUsuario = async (dados) => {
+  try {
+    const response = await api.post("/usuarios", dados);
+    toast.success("Cadastro efetuado com sucesso!");
+    return response.data;
+  } catch (error) {
+    const errorMsg =
+      error.response?.data?.message || "Erro ao cadastrar usuário.";
+
+    if (error.response?.status === 409) {
+      toast.error("CPF ou Email já cadastrado. Por favor, utilize outro.");
+    } else {
+      toast.error(errorMsg);
+    }
+
+    throw new Error(errorMsg);
   }
 };
