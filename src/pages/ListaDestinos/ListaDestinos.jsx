@@ -3,9 +3,13 @@ import { useNavigate } from "react-router-dom";
 import Menu from "../../componentes/Menu/Menu";
 import "../ListaDestinos/ListaDestinos.css";
 import { api } from "../../services/ApiUrl";
+import toast from "react-hot-toast";
+// import { useDestinos } from "../../context/DestinoContext";
 
 function ListaDestinos() {
   const [destinos, setDestinos] = useState([]);
+  // const { setSelectedTour } = useDestinos();
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,28 +34,29 @@ function ListaDestinos() {
   }, []);
 
   const handleAlterar = (id) => {
-    navigate(`/alterar-local/${id}`);
+    const destinoSeleccionado = destinos.find((destino) => destino.id === id);
+    // setSelectedTour(destinoSeleccionado);
+    navigate(`/alterar-local/${destinoSeleccionado.id}`);
   };
 
   const handleExcluir = async (id) => {
+    const destinoSeleccionado = destinos.find((destino) => destino.id === id);
+    console.log(`id destino seleccionado`, destinoSeleccionado.id);
+
     const confirmar = window.confirm(
       "Tem certeza que deseja excluir este local?"
     );
 
     if (confirmar) {
       try {
-        const response = await fetch(`${api}/destinos/${id}`, {
-          method: "DELETE",
-        });
+        const response = await api.delete(`destinos/${destinoSeleccionado.id}`);
 
-        if (response.ok) {
+        if (response.status === 200) {
           setDestinos(destinos.filter((destino) => destino.id !== id));
-          alert("Local excluído com sucesso!");
-        } else {
-          alert("Erro ao excluir o local.");
+          toast.success("Local excluído com sucesso!");
         }
       } catch (error) {
-        alert("Erro ao excluir o local.");
+        toast.error("Erro ao excluir o local.");
       }
     }
   };

@@ -5,38 +5,38 @@ import buscaCep from "../../util/buscaCep";
 import buscaCoordenadas from "../../util/buscaCoordenadas";
 import Menu from "../../componentes/Menu/Menu";
 import { api } from "../../services/ApiUrl";
+import toast from "react-hot-toast";
 
 function AlterarDestino() {
   const { register, handleSubmit, setValue } = useForm();
   const [cep, setCep] = useState("");
-  const [usuario, setUsuario] = useState({ nome: "", id: "" });
+  // const [usuario, setUsuario] = useState({ nome: "", id: "" });
   const [destino, setDestino] = useState(null);
   const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
-    const usuarioNome = localStorage.getItem("usuarioNome");
-    const usuarioId = localStorage.getItem("usuarioId");
-    setUsuario({ nome: usuarioNome, id: usuarioId });
+    // const usuarioNome = localStorage.getItem("usuarioNome");
+    // const usuarioId = localStorage.getItem("usuarioId");
+    // setUsuario({ nome: usuarioNome, id: usuarioId });
 
     const carregarDestino = async (id) => {
       try {
-        const response = await fetch(`${api}/${id}`);
-        if (response.ok) {
-          const data = await response.json();
+        const response = await api.get(`destinos/${id}`);
+
+        if (response.status === 200) {
+          const data = response.data;
           setDestino(data);
           setCep(data.cep || "");
 
           for (const key in data) {
             setValue(key, data[key]);
           }
-        } else {
-          alert("Erro ao carregar os dados do destino.");
         }
       } catch (error) {
-        alert("Erro ao carregar os dados do destino.");
+        toast.error("Erro ao carregar os dados do destino.");
       }
-    }
+    };
 
     if (id) {
       carregarDestino(id);
@@ -49,24 +49,19 @@ function AlterarDestino() {
 
   const atualizarDestino = async (data) => {
     try {
-      const destinoData = { ...data, usuarioId: usuario.id };
-      const response = await fetch(`http://localhost:3000/destinos/${id}`, {
-        method: "PUT",
-        body: JSON.stringify(destinoData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        alert("Dados do destino atualizados com sucesso!");
+      const userId = localStorage.getItem("userId");
+      const destinoData = { ...data, usuario_id: userId };
+      console.log(`data para actualizar`, destinoData);
+      const response = await api.put(`destinos/${id}`, destinoData);
+
+      if (response.status === 200) {
+        toast.success("Dados do destino atualizados com sucesso!");
         navigate("/locais");
-      } else {
-        alert("Erro ao atualizar os dados do destino.");
       }
     } catch (error) {
-      alert("Erro ao atualizar os dados do destino.");
+      toast.error("Erro ao atualizar os dados do destino.");
     }
-  }
+  };
 
   const onCepChange = async (e) => {
     const cepValue = e.target.value.replace(/\D/g, "");
