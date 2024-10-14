@@ -84,13 +84,13 @@ function ListaDestinos() {
                   <td>{destino.estado}</td>
                   <td className="acoes-coluna">
                     <img
-                      src="../src/imgs/alterar-icon.png"
+                      src="/imgs/alterar-icon.png"
                       alt="Alterar"
                       className="icon-alterar"
                       onClick={() => handleAlterar(destino.id)}
                     />
                     <img
-                      src="../src/imgs/excluir-icon.png"
+                      src="/imgs/excluir-icon.png"
                       alt="Excluir"
                       className="icon-excluir"
                       onClick={() => handleExcluir(destino.id)}

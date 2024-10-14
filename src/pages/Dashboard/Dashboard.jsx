@@ -69,7 +69,7 @@ function Dashboard() {
                   <span className="num-card">{contDestinos}</span>
                   <img
                     className="icon-card"
-                    src="../src/imgs/local-icon.png"
+                    src="/imgs/local-icon.png"
                     alt="Icone Localização"
                   />
                 </div>
