@@ -2,8 +2,8 @@ import "../Mapa/Mapa.css"
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet"
 import "leaflet/dist/leaflet.css"
 import L from "leaflet"
-import iconUrl from "..//imgs/local-icon-red.png"
-import highlightedIconUrl from "..//imgs/local-icon-red-hl.png"
+import iconUrl from "/imgs/local-icon-red.png"
+import highlightedIconUrl from "/imgs/local-icon-red-hl.png"
 import { useEffect, useState } from "react"
 
 function ChangeView({ center, zoom }) {
