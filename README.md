@@ -107,15 +107,15 @@ Caso tenha alguma dúvida!!
 
 ## Tela Login
 
-![image](./imgs/tela-login.png)
+![image](/imgs/tela-login.png)
 
 
 ## Tela Cadastro
 
-![image](./imgs/tela-cadastro.png)
+![image](/imgs/tela-cadastro.png)
 
 
 ## Tela Dashboard
 
-![image](./imgs/tela-dashboard.png)
+![image](/imgs/tela-dashboard.png)
 

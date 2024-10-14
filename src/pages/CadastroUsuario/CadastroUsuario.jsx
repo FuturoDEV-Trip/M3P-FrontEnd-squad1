@@ -38,7 +38,7 @@ function CadastroUsuario() {
       <div className="flex-row">
         <div className="imagem-lateral">
           <img
-            src="./imgs/lateral.jpg"
+            src="/imgs/lateral.jpg"
             alt="Imagem lateral tela notebook com natureza sobreposta"
           />
         </div>
