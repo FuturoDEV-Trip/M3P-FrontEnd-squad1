@@ -101,13 +101,6 @@ function Dashboard() {
             ))}
           </div>
         </div>
-        <div className="mobile-map-overlay">
-          <div className="mobile-map-container">
-            <button className="close-map-btn" onClick={handleCloseMobileMap}>
-              Fechar
-            </button>
-          </div>
-        </div>
       </div>
     </>
   );
